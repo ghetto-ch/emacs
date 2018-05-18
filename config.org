@@ -121,10 +121,10 @@ These are setting that do not depend on packages and are built-in enhancements t
 
 ** Frame size and position
 #+BEGIN_SRC emacs-lisp
-  (when window-system
-    (add-to-list 'default-frame-alist '(height . 120))
-    (add-to-list 'default-frame-alist '(width . 140))
-    (set-frame-position (selected-frame) 1280 0))
+;;  (when window-system
+;;    (add-to-list 'default-frame-alist '(height . 120))
+;;    (add-to-list 'default-frame-alist '(width . 140))
+;;    (set-frame-position (selected-frame) 1280 0))
 #+END_SRC
 ** Looks
 *** Remove lame startup screen
@@ -688,7 +688,7 @@ A pretty simple package, takes your cursor and semantically expands the region, 
     :bind ("C-q" . er/expand-region))
 #+END_SRC
 
-** Hungry deletion TO BE REVISITED
+** TODO Hungry deletion
 On the list of things I like doing, deleting big whitespaces is pretty close to the bottom.
 Backspace or Delete will get rid of all whitespace until the next non-whitespace character is encountered.
 You may not like it, thus disable it if you must, but it's pretty decent.
@@ -699,7 +699,7 @@ You may not like it, thus disable it if you must, but it's pretty decent.
 ;;      (global-hungry-delete-mode))
 #+END_SRC
 
-** Zapping to char TO BE REVISITED
+** TODO Zapping to char
 A nifty little package that kills all text between your cursor and a selected character.
 A lot more useful than you might think. If you wish to include the selected character in the killed region,
 change =zzz-up-to-char= into =zzz-to-char=.
@@ -730,8 +730,15 @@ C-n and C-p totally work for this.
 
 * Programming
 Minor, non-completion related settings and plugins for writing code.
-
 ** yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+      (use-package yasnippet-snippets
+        :ensure t)
+      (yas-reload-all))
+#+END_SRC
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -744,18 +751,19 @@ it starts doing its magic after typing in only 2 characters.
 
 I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (setq company-idle-delay 0.5)
-    (setq company-minimum-prefix-length 2))
+    (use-package company
+      :ensure t
+      :config
+      (setq company-idle-delay 0.5)
+      (setq company-minimum-prefix-length 2)
+      )
 
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    (define-key company-active-map (kbd "SPC") #'company-abort))
+    (with-eval-after-load 'company
+      (define-key company-active-map (kbd "M-n") nil)
+      (define-key company-active-map (kbd "M-p") nil)
+      (define-key company-active-map (kbd "C-n") #'company-select-next)
+      (define-key company-active-map (kbd "C-p") #'company-select-previous)
+      (define-key company-active-map (kbd "SPC") #'company-abort))
 #+END_SRC
 
 ** specific languages
@@ -772,41 +780,70 @@ Each category also has additional settings.
   (add-hook 'c-mode-hook 'yas-minor-mode)
 #+END_SRC
 
-**** flycheck TO BE REVISITED
+**** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-clang-analyzer
     :ensure t
     :config
     (with-eval-after-load 'flycheck
       (require 'flycheck-clang-analyzer)
-       (flycheck-clang-analyzer-setup)))
+      (flycheck-clang-analyzer-setup)
+      (add-hook 'c++-mode-hook 'flycheck-mode)
+      (add-hook 'c-mode-hook 'flycheck-mode)))
 #+END_SRC
 
-**** company TO BE REVISITED
+**** company
 Requires libclang to be installed.
 #+BEGIN_SRC emacs-lisp
-  (with-eval-after-load 'company
-    (add-hook 'c++-mode-hook 'company-mode)
-    (add-hook 'c-mode-hook 'company-mode))
+      (with-eval-after-load 'company
+        (add-hook 'c++-mode-hook 'company-mode)
+        (add-hook 'c-mode-hook 'company-mode))
 
-  (use-package company-c-headers
-    :ensure t)
+      (use-package company-c-headers
+        :ensure t)
 
-  (use-package company-irony
-    :ensure t
-    :config
-    (setq company-backends '((company-c-headers
-                              company-dabbrev-code
-                              company-irony))))
+      (use-package company-irony
+        :ensure t
+        :config
+        (setq-local company-backends '((company-c-headers
+                                  company-dabbrev-code
+                                  company-irony)))
+        )
 
-  (use-package irony
-    :ensure t
-    :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+      (use-package irony
+        :ensure t
+        :config
+        (add-hook 'c++-mode-hook 'irony-mode)
+        (add-hook 'c-mode-hook 'irony-mode)
+        (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 #+END_SRC
 
+**** TODO helm+ggtags
+;;#+BEGIN_SRC emacs-lisp
+;;  (setq
+;;   helm-gtags-ignore-case t
+;;   helm-gtags-auto-update t
+;;   helm-gtags-use-input-at-cursor t
+;;   helm-gtags-pulse-at-cursor t
+;;   helm-gtags-prefix-key "\C-cg"
+;;   helm-gtags-suggested-key-mapping t
+;;   )
+;;
+;;  (require 'helm-gtags)
+;;  ;; Enable helm-gtags-mode
+;;  (add-hook 'dired-mode-hook 'helm-gtags-mode)
+;;  (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+;;  (add-hook 'c-mode-hook 'helm-gtags-mode)
+;;  (add-hook 'c++-mode-hook 'helm-gtags-mode)
+;;  (add-hook 'asm-mode-hook 'helm-gtags-mode)
+;;
+;;  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+;;  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+;;  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+;;  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+;;  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;;  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;;#+END_SRC
 *** python
 **** yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -819,9 +856,9 @@ Requires libclang to be installed.
 #+END_SRC
 **** TODO company
 #+BEGIN_SRC emacs-lisp
-;;  (with-eval-after-load 'company
-;;      (add-hook 'python-mode-hook 'company-mode))
-;;
+  (with-eval-after-load 'company
+      (add-hook 'python-mode-hook 'company-mode))
+
 ;;  (use-package company-jedi
 ;;    :ensure t
 ;;    :config
@@ -869,31 +906,32 @@ Requires libclang to be installed.
 **** company
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook 'company-mode)
-;;
-;;  (use-package slime
-;;    :ensure t
-;;    :config
-;;    (setq inferior-lisp-program "/usr/bin/sbcl")
-;;    (setq slime-contribs '(slime-fancy)))
-;;
-;;  (use-package slime-company
-;;    :ensure t
-;;    :init
-;;      (require 'company)
-;;      (slime-setup '(slime-fancy slim
+
+  (use-package slime
+    :ensure t
+    :config
+    (setq inferior-lisp-program "sbcl")
+    (setq slime-contribs '(slime-fancy)))
+
+  (use-package slime-company
+    :ensure t
+    :init
+      (require 'company)
+      (slime-setup '(slime-fancy slime-company)))
 #+END_SRC
-*** TODO bash
+*** DONE bash
+CLOSED: [2018-05-18 Fri 20:46]
 **** yasnippet
-;;#+BEGIN_SRC emacs-lisp
-;;  (add-hook 'shell-mode-hook 'yas-minor-mode)
-;;#+END_SRC
-;;
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'shell-mode-hook 'yas-minor-mode)
+#+END_SRC
+
 **** flycheck
-;;#+BEGIN_SRC emacs-lisp
-;;  (add-hook 'shell-mode-hook 'flycheck-mode)
-;;
-;;#+END_SRC
-;;
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'shell-mode-hook 'flycheck-mode)
+
+#+END_SRC
+
 **** company
 #+BEGIN_SRC emacs-lisp
   (add-hook 'shell-mode-hook 'company-mode)
@@ -907,8 +945,8 @@ Requires libclang to be installed.
   (use-package company-shell
     :ensure t
     :config
-      (require 'company)
-      (add-hook 'shell-mode-hook 'shell-mode-company-init))
+    (require 'company)
+    (add-hook 'shell-mode-hook 'shell-mode-company-init))
 #+END_SRC
 
 *** Scheme
