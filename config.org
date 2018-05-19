@@ -934,26 +934,7 @@ Requires libclang to be installed.
       (setq pyenv-current-version global-pyenv)))
 
   (add-hook 'after-init-hook 'pyenv-init)
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-  (use-package elpy
-    :ensure t
-    :init
-    (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-    :config
-    (setq elpy-rpc-backend "jedi")
-    :bind (:map elpy-mode-map
-                ("M-." . elpy-goto-definition)
-                ("M-," . pop-tag-mark))
-    )
-
-  (use-package python
-    :mode ("\\.py" . python-mode)
-    :config
-    (setq python-indent-offset 4)
-    (elpy-enable))
-
-
+  ;;(add-hook 'python-mode-hook 'pyenv-activate-current-project)
 #+END_SRC
 
 *** emacs-lisp
