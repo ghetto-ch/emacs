@@ -62,7 +62,7 @@
  '(geiser-guile-binary "guile")
  '(package-selected-packages
    (quote
-    (pyenv-mode slime-company slime company-irony company-c-headers flycheck-clang-analyzer elpy py-autopep8 company-shell company-jedi yasnippet-snippets yasnippet spaceline helm symon multiple-cursors golden-ratio paredit geiser diminish ox-twbs org-bullets htmlize sudo-edit company popup-kill-ring zzz-to-char expand-region rainbow-delimiters rainbow-mode beacon avy linum-relative swiper which-key ivy dashboard projectile zerodark-theme use-package))))
+    (platformio-mode highlight-indent-guides pyenv-mode slime-company slime company-irony company-c-headers flycheck-clang-analyzer elpy py-autopep8 company-shell company-jedi yasnippet-snippets yasnippet spaceline helm symon multiple-cursors golden-ratio paredit geiser diminish ox-twbs org-bullets htmlize sudo-edit company popup-kill-ring zzz-to-char expand-region rainbow-delimiters rainbow-mode beacon avy linum-relative swiper which-key ivy dashboard projectile zerodark-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

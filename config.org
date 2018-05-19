@@ -766,6 +766,26 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
       (define-key company-active-map (kbd "SPC") #'company-abort))
 #+END_SRC
 
+** highlight indent guides
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indent-guides
+    :ensure t
+    :init
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+    :config
+    (setq highlight-indent-guides-method 'character)
+    (setq highlight-indent-guides-responsive 'top)
+    (setq highlight-indent-guides-delay 0)
+    )
+
+#+END_SRC
+** plaformio
+#+BEGIN_SRC emacs-lisp
+  (use-package platformio-mode
+    :ensure t
+    :init (add-hook 'c++-mode-hook 'platformio-conditionally-enable)
+    )
+#+END_SRC
 ** specific languages
 Be it for code or prose, completion is a must.
 After messing around with =auto-completion= for a while I decided to drop it
