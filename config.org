@@ -161,12 +161,16 @@ Besides, it's only used for programming.
 *** Pretty symbols
 Changes =lambda= to an actual symbol and a few others as well, only in the GUI version though.
 #+BEGIN_SRC emacs-lisp
-;;  (when window-system
-;;        (use-package pretty-mode
-;;        :ensure t
-;;        :config
-;;        (global-pretty-mode t)))
+  (defun ghetto/prettify-symbols ()
+    "make some word or string show as pretty Unicode symbols"
+    (setq prettify-symbols-alist
+          '(
+            ("lambda" . 955) ; λ
+            ("->" . 8594)    ; →
+            ("=>" . 8658)    ; ⇒
+            )))
 
+  (add-hook 'prog-mode-hook 'ghetto/prettify-symbols)
   (when window-system (global-prettify-symbols-mode t))
 #+END_SRC
 
@@ -382,11 +386,12 @@ CLOSED: [2018-05-15 Mar 19:21]
 #+BEGIN_SRC emacs-lisp 
   (use-package golden-ratio
     :ensure t
-    :init (golden-ratio-mode 1)
+    :init (golden-ratio-mode nil)
     :config
     (setq golden-ratio-exclude-buffer-regexp
           '(
             "\*helm.+"
+            "*MINIMAP*"
   ;;          "*helm M-x*"
   ;;          "*helm find files*"
   ;;          "*helm buffers*"
@@ -778,6 +783,16 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
     (setq highlight-indent-guides-delay 0)
     )
 
+#+END_SRC
+** minimap
+#+BEGIN_SRC emacs-lisp
+  ;;(use-package minimap
+  ;;  :ensure t
+  ;;  :config
+  ;;  (setq minimap-dedicated-window 1)
+  ;;  (setq minimap-window-location 'right)
+  ;;  (setq minimap-width-fraction 0.05)
+  ;;  )
 #+END_SRC
 ** plaformio
 #+BEGIN_SRC emacs-lisp

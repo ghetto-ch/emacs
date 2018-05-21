@@ -60,6 +60,7 @@
  ;; If there is more than one, they won't work right.
  '(geiser-chez-binary "chez")
  '(geiser-guile-binary "guile")
+ '(minimap-mode nil)
  '(package-selected-packages
    (quote
     (platformio-mode highlight-indent-guides pyenv-mode slime-company slime company-irony company-c-headers flycheck-clang-analyzer elpy py-autopep8 company-shell company-jedi yasnippet-snippets yasnippet spaceline helm symon multiple-cursors golden-ratio paredit geiser diminish ox-twbs org-bullets htmlize sudo-edit company popup-kill-ring zzz-to-char expand-region rainbow-delimiters rainbow-mode beacon avy linum-relative swiper which-key ivy dashboard projectile zerodark-theme use-package))))
