@@ -380,25 +380,6 @@ This annoyed me so much I wrote these two, they take care of it.
   (global-set-key (kbd "C-x 3") 'ghetto/split-and-follow-vertically)
 #+END_SRC
 
-*** golden ratio
-**** DONE workaround for helm 
-CLOSED: [2018-05-15 Mar 19:21]
-#+BEGIN_SRC emacs-lisp 
-  (use-package golden-ratio
-    :ensure t
-    :init (golden-ratio-mode nil)
-    :config
-    (setq golden-ratio-exclude-buffer-regexp
-          '(
-            "\*helm.+"
-            "*MINIMAP*"
-  ;;          "*helm M-x*"
-  ;;          "*helm find files*"
-  ;;          "*helm buffers*"
-  ;;          "*helm-mode-magit-status*"      
-            )))
-
-#+END_SRC
 ** swiper and why is the default search so lame
 I like me some searching, the default search is very meh. In emacs, you mostly use search to get around your buffer, much like with avy, but sometimes it doesn't hurt to search for entire words or mode, swiper makes sure this is more efficient.
 #+BEGIN_SRC emacs-lisp
