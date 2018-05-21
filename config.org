@@ -380,14 +380,10 @@ This annoyed me so much I wrote these two, they take care of it.
   (global-set-key (kbd "C-x 3") 'ghetto/split-and-follow-vertically)
 #+END_SRC
 
-** swiper and why is the default search so lame
-I like me some searching, the default search is very meh. In emacs, you mostly use search to get around your buffer, much like with avy, but sometimes it doesn't hurt to search for entire words or mode, swiper makes sure this is more efficient.
+** winner mode
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper
-    :ensure t
-    :bind ("C-s" . 'swiper))
+  (winner-mode 1)
 #+END_SRC
-
 ** buffers and why I hate list-buffers
 Another big thing is, buffers. If you use emacs, you use buffers, everyone loves them.
 Having many buffers is useful, but can be tedious to work with, let us see how we can improve it.
@@ -501,6 +497,17 @@ CLOSED: [2018-05-18 Fri 18:42]
 
   ;;  (define-key helm-find-files-map (kbd "C-b") 'helm-find-files-up-one-level)
   ;;  (define-key helm-find-files-map (kbd "C-f") 'helm-execute-persistent-action)
+
+  (use-package helm-swoop
+    :ensure t
+    :init (require 'helm-swoop))
+
+  ;; Change the keybinds to whatever you like :)
+  (global-set-key (kbd "C-s") 'helm-swoop)
+  (global-set-key (kbd "M-i") 'helm-swoop-back-to-last-point)
+  (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
+  (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+
 #+END_SRC
 
 ** avy
