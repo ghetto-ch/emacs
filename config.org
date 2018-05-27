@@ -8,10 +8,16 @@
 * Theme
 ** Bigger font
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil
-                      :height 150
-                      :family "Monaco"
-                      )
+  (when (string-equal system-type "darwin")
+    (set-face-attribute 'default nil
+                        :height 150
+                        :family "Monaco"
+                        ))
+  (when (string-equal system-type "gnu/linux")
+    (set-face-attribute 'default nil
+                        :height 120
+                        ;:family "Monaco"
+                        ))
 #+END_SRC
 ** A nice theme
 #+BEGIN_SRC emacs-lisp
@@ -799,6 +805,7 @@ Requires libclang to be installed.
 **** elpy
 #+BEGIN_SRC emacs-lisp
   (use-package elpy
+    :ensure t
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
     :bind (:map elpy-mode-map
@@ -810,6 +817,7 @@ Requires libclang to be installed.
   (use-package python
     :mode ("\\.py" . python-mode)
     :config
+    (require 'elpy)
     (setq python-indent-offset 4)
     (elpy-enable))
 #+END_SRC
