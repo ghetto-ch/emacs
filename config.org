@@ -119,8 +119,11 @@ with a =.git= directory as projects and helps you manage them accordingly.
 This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
-    :init
+     :ensure t
+     :config
+      (setq projectile-completion-system 'helm)
+      (setq projectile-mode-line '(:eval (format " Prj[%s]" (projectile-project-name))))
+     :init
       (projectile-mode 1))
 #+END_SRC
 
@@ -415,12 +418,10 @@ I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= 
   (use-package avy
     :ensure t
     :bind
-      ("M-s" . avy-goto-char))
+    ("C-M-s" . avy-goto-char))
+
 #+END_SRC
-
 * Text manipulation
-Here I shall collect self-made functions that make editing text easier.
-
 ** Multiple cursors
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
@@ -432,53 +433,6 @@ Here I shall collect self-made functions that make editing text easier.
     ("C-<" . mc/mark-previous-like-this)
     ("C-c C-<" . mc/mark-all-like-this))
 #+END_SRC
-** Improved kill-word
-Why on earth does a function called =kill-word= not .. kill a word.
-It instead deletes characters from your cursors position to the end of the word,
-let's make a quick fix and bind it properly.
-#+BEGIN_SRC emacs-lisp
-  (defun ghetto/kill-inner-word ()
-    "Kills the entire word your cursor is in. Equivalent to 'ciw' in vim."
-    (interactive)
-    (forward-char 1)
-    (backward-word)
-    (kill-word 1))
-  (global-set-key (kbd "C-c w k") 'ghetto/kill-inner-word)
-#+END_SRC
-
-** Improved copy-word
-And again, the same as above but we make sure to not delete the source word.
-#+BEGIN_SRC emacs-lisp
-  (defun ghetto/copy-whole-word ()
-    (interactive)
-    (save-excursion
-      (forward-char 1)
-      (backward-word)
-      (kill-word 1)
-      (yank)))
-  (global-set-key (kbd "C-c w c") 'ghetto/copy-whole-word)
-#+END_SRC
-
-** Copy a line
-Regardless of where your cursor is, this quickly copies a line.
-#+BEGIN_SRC emacs-lisp
-  (defun ghetto/copy-whole-line ()
-    "Copies a line without regard for cursor position."
-    (interactive)
-    (save-excursion
-      (kill-new
-       (buffer-substring
-        (point-at-bol)
-        (point-at-eol)))))
-  (global-set-key (kbd "C-c l c") 'ghetto/copy-whole-line)
-#+END_SRC
-
-** Kill a line
-And this quickly deletes a line.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c l k") 'kill-whole-line)
-#+END_SRC
-
 * Minor conveniences
 Emacs is at it's best when it just does things for you, shows you the way, guides you so to speak.
 This can be best achieved using a number of small extensions. While on their own they might not be particularly
@@ -1018,7 +972,7 @@ Those are all rather self-explanatory.
 
 ** Keybindings
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c '") 'org-edit-src-code)
+  ;;(global-set-key (kbd "C-c '") 'org-edit-src-code)
   ;;(global-set-key "\C-cl") 'org-store-link)
   ;;(global-set-key "\C-ca") 'org-agenda)
   ;;(global-set-key "\C-cc") 'org-capture)
@@ -1082,7 +1036,8 @@ Edit this list as you see fit!
     (diminish 'rainbow-mode)
     (diminish 'golden-ratio-mode)
     (diminish 'helm-mode)
-    (diminish 'projectile-mode)
+    ;;(diminish 'projectile-mode)
+    (diminish 'undo-tree-mode)
     )
 #+END_SRC
 
@@ -1122,3 +1077,33 @@ Not necessary with US layout
       (exec-path-from-shell-initialize)))
 #+END_SRC
 
+* EVIL
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+     (evil-mode 1))
+
+  (lexical-let ((default-color (cons (face-background 'mode-line)
+                                     (face-foreground 'mode-line))))
+    (add-hook 'post-command-hook
+              (lambda ()
+                (let ((color (cond ((minibufferp) default-color)
+                                   ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+                                   ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+                                   ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+                                   (t default-color))))
+                  (set-face-background 'mode-line (car color))
+                  (set-face-foreground 'mode-line (cdr color))))))
+
+  (use-package evil-paredit
+    :ensure t
+    :config
+    (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+    (add-hook 'geiser-repl-mode-hook      #'enable-paredit-mode))
+#+END_SRC
