@@ -257,7 +257,8 @@ It's beautiful
   (use-package which-key
     :ensure t
     :config
-      (which-key-mode))
+    (which-key-mode)
+    :diminish which-key-mode)
 #+END_SRC
 
 ** windows,panes and why I hate other-window
@@ -356,31 +357,15 @@ This can be invoked using =C-M-s-k=. This keybinding makes sure you don't hit it
 
 ** line numbers and programming
 #+BEGIN_SRC emacs-lisp
-    ;;(setq-default display-line-numbers 'visual
-    ;;              display-line-numbers-widen t
-    ;;              ;; this is the default
-    ;;              display-line-numbers-current-absolute t)
+  (add-hook 'prog-mode-hook 'ghetto/activate-line-numbers)
 
-    ;;(defun noct:relative ()
-    ;;  (setq-local display-line-numbers 'visual))
-    ;;
-    ;;(defun noct:absolute ()
-    ;;  (setq-local display-line-numbers t))
-    ;;
-    ;;(add-hook 'evil-insert-state-entry-hook #'noct:absolute)
-    ;;(add-hook 'evil-insert-state-exit-hook #'noct:relative)
-    ;;
-    ;;(setq display-line-numbers 'visual)
-    (add-hook 'prog-mode-hook 'ghetto/activate-line-numbers)
+  (add-hook 'prog-mode-hook '(lambda ()
+                               (setq-local display-line-numbers 'visual)
+                               (line-number-mode t)))
 
-  (defun ghetto/activate-line-numbers ()
-    (setq-local display-line-numbers 'visual)
-    (line-number-mode t))
-
-    ;; example of customizing colors
-  ;;(custom-set-faces '(line-number-current-line ((t :weight bold
-  ;;                                                 :foreground "goldenrod"
-  ;;                                                 ))))
+  ;;(defun ghetto/activate-line-numbers ()
+  ;;  (setq-local display-line-numbers 'visual)
+  ;;  (line-number-mode t))
 #+END_SRC
 
 ** DONE helm
@@ -407,7 +392,8 @@ CLOSED: [2018-05-18 Fri 18:42]
      helm-split-window-in-side-p nil
      )
     :init
-    (helm-mode 1))
+    (helm-mode 1)
+    :diminish helm-mode)
 
   (require 'helm-config)    
   (helm-autoresize-mode 1)
@@ -499,21 +485,6 @@ And now to enable it
 (electric-pair-mode t)
 #+END_SRC
 
-** Beacon
-While changing buffers or workspaces, the first thing you do is look for your cursor.
-Unless you know its position, you can not move it efficiently. Every time you change
-buffers, the current position of your cursor will be briefly highlighted now.
-
-GHETTONOTE: stop working when using guile REPL. Disable for now.
-
-
-#+BEGIN_SRC emacs-lisp
-;;  (use-package beacon
-;;    :ensure t
-;;    :config
-;;      (beacon-mode 1))
-#+END_SRC
-
 ** Rainbow
 Mostly useful if you are into web development or game development.
 Every time emacs encounters a hexadecimal code that resembles a color, it will automatically highlight
@@ -522,7 +493,8 @@ it in the appropriate color. This is a lot cooler than you may think.
   (use-package rainbow-mode
     :ensure t
     :init
-      (add-hook 'prog-mode-hook 'rainbow-mode))
+    (add-hook 'prog-mode-hook 'rainbow-mode)
+    :diminish rainbow-mode)
 #+END_SRC
 
 ** Show parens
@@ -537,7 +509,8 @@ especially lisp.
   (use-package rainbow-delimiters
     :ensure t
     :init
-      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+    :diminish rainbow-delimiters-mode)
 #+END_SRC
 
 ** Expand region
@@ -546,27 +519,6 @@ A pretty simple package, takes your cursor and semantically expands the region, 
   (use-package expand-region
     :ensure t
     :bind ("C-q" . er/expand-region))
-#+END_SRC
-
-** TODO Hungry deletion
-On the list of things I like doing, deleting big whitespaces is pretty close to the bottom.
-Backspace or Delete will get rid of all whitespace until the next non-whitespace character is encountered.
-You may not like it, thus disable it if you must, but it's pretty decent.
-#+BEGIN_SRC emacs-lisp
-;;  (use-package hungry-delete
-;;    :ensure t
-;;    :config
-;;      (global-hungry-delete-mode))
-#+END_SRC
-
-** TODO Zapping to char
-A nifty little package that kills all text between your cursor and a selected character.
-A lot more useful than you might think. If you wish to include the selected character in the killed region,
-change =zzz-up-to-char= into =zzz-to-char=.
-#+BEGIN_SRC emacs-lisp
-  (use-package zzz-to-char
-    :ensure t
-    :bind ("M-z" . zzz-up-to-char))
 #+END_SRC
 
 * Kill ring
@@ -1037,21 +989,9 @@ Edit this list as you see fit!
   (use-package diminish
     :ensure t
     :init
-    (diminish 'which-key-mode)
-    (diminish 'linum-relative-mode)
-    (diminish 'hungry-delete-mode)
-    (diminish 'visual-line-mode)
-    (diminish 'subword-mode)
-    (diminish 'beacon-mode)
-    ;;(diminish 'irony-mode)
     (diminish 'page-break-lines-mode)
     (diminish 'auto-revert-mode)
-    (diminish 'rainbow-delimiters-mode)
-    (diminish 'rainbow-mode)
-    (diminish 'golden-ratio-mode)
-    (diminish 'helm-mode)
-    ;;(diminish 'projectile-mode)
-    (diminish 'undo-tree-mode)
+    (diminish 'visual-line-mode)
     )
 #+END_SRC
 
@@ -1120,4 +1060,7 @@ Not necessary with US layout
     (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
     (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
     (add-hook 'geiser-repl-mode-hook      #'enable-paredit-mode))
+
+  (use-package undo-tree
+    :diminish undo-tree-mode)
 #+END_SRC
