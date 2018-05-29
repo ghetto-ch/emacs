@@ -240,8 +240,7 @@ Do me the favor, do me the biggest favor, matter of fact do yourself the biggest
     :ensure t)
 #+END_SRC
 
-** scrolling and why does the screen move
-I don't know to be honest, but this little bit of code makes scrolling with emacs a lot nicer.
+** scrolling
 #+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
 #+END_SRC
@@ -356,17 +355,32 @@ This can be invoked using =C-M-s-k=. This keybinding makes sure you don't hit it
 #+END_SRC
 
 ** line numbers and programming
-Every now and then all of us feel the urge to be productive and write some code.
-In the event that this happens, the following bit of configuration makes sure that 
-we have access to relative line numbering in programming-related modes.
-I highly recommend not enabling =linum-relative-mode= globally, as it messed up 
-something like =ansi-term= for instance.
 #+BEGIN_SRC emacs-lisp
-  (use-package linum-relative
-    :ensure t
-    :config
-      (setq linum-relative-current-symbol "")
-      (add-hook 'prog-mode-hook 'linum-relative-mode))
+    ;;(setq-default display-line-numbers 'visual
+    ;;              display-line-numbers-widen t
+    ;;              ;; this is the default
+    ;;              display-line-numbers-current-absolute t)
+
+    ;;(defun noct:relative ()
+    ;;  (setq-local display-line-numbers 'visual))
+    ;;
+    ;;(defun noct:absolute ()
+    ;;  (setq-local display-line-numbers t))
+    ;;
+    ;;(add-hook 'evil-insert-state-entry-hook #'noct:absolute)
+    ;;(add-hook 'evil-insert-state-exit-hook #'noct:relative)
+    ;;
+    ;;(setq display-line-numbers 'visual)
+    (add-hook 'prog-mode-hook 'ghetto/activate-line-numbers)
+
+  (defun ghetto/activate-line-numbers ()
+    (setq-local display-line-numbers 'visual)
+    (line-number-mode t))
+
+    ;; example of customizing colors
+  ;;(custom-set-faces '(line-number-current-line ((t :weight bold
+  ;;                                                 :foreground "goldenrod"
+  ;;                                                 ))))
 #+END_SRC
 
 ** DONE helm
@@ -571,7 +585,7 @@ C-n and C-p totally work for this.
 #+BEGIN_SRC emacs-lisp
   (use-package popup-kill-ring
     :ensure t
-    :bind ("M-y" . popup-kill-ring))
+    :bind ("C-M-y" . popup-kill-ring))
 #+END_SRC
 
 * Programming
