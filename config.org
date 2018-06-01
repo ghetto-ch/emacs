@@ -24,7 +24,14 @@
   (use-package zenburn-theme
     :ensure t
     :init
-      (load-theme 'zenburn t))
+    (load-theme 'zenburn t))
+
+  (set-face-attribute 'region nil :background "navy")
+  (custom-set-faces
+   '(line-number-current-line ((t :weight bold :foreground "CadetBlue2" :background "gray22")))
+   '(show-paren-match ((t (:background "PeachPuff2" :foreground "gray13" :weight bold))))
+   '(hl-line ((t (:background "gray22"))))
+   )
 #+END_SRC
 
 * Basic Interface Settings
@@ -68,6 +75,7 @@ This is annoying, remove this line if you like being visually reminded of events
 Besides, it's only used for programming.
 #+BEGIN_SRC emacs-lisp
   (when window-system (add-hook 'prog-mode-hook 'hl-line-mode))
+  
 #+END_SRC
 *** Pretty symbols
 Changes =lambda= to an actual symbol and a few others as well, only in the GUI version though.
@@ -357,7 +365,7 @@ This can be invoked using =C-M-s-k=. This keybinding makes sure you don't hit it
 
 ** line numbers and programming
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'ghetto/activate-line-numbers)
+  ;;(add-hook 'prog-mode-hook 'ghetto/activate-line-numbers)
 
   (add-hook 'prog-mode-hook '(lambda ()
                                (setq-local display-line-numbers 'visual)
@@ -379,9 +387,6 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-x b" . 'helm-buffers-list)
     ("M-x" . 'helm-M-x)
     ("C-c C-f" . 'helm-recentf)
-    (:map helm-find-files-map
-          ("<tab>"         . helm-execute-persistent-action)
-          ("C-<backspace>" . helm-find-files-up-one-level))
     :config
     (setq
      helm-M-x-fuzzy-match t
@@ -391,6 +396,8 @@ CLOSED: [2018-05-18 Fri 18:42]
      helm-imenu-fuzzy-match t
      helm-split-window-in-side-p nil
      )
+    (define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-find-files-map (kbd "C-<backspace>") 'helm-find-files-up-one-level)
     :init
     (helm-mode 1)
     :diminish helm-mode)
@@ -563,19 +570,20 @@ it starts doing its magic after typing in only 2 characters.
 
 I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure t
-      :config
-      (setq company-idle-delay 0.5)
-      (setq company-minimum-prefix-length 2)
-      )
+  (use-package company
+    :ensure t
+    :config
+    (setq company-idle-delay 0.5)
+    (setq company-minimum-prefix-length 2)
+    )
 
-    (with-eval-after-load 'company
-      (define-key company-active-map (kbd "M-n") nil)
-      (define-key company-active-map (kbd "M-p") nil)
-      (define-key company-active-map (kbd "C-n") #'company-select-next)
-      (define-key company-active-map (kbd "C-p") #'company-select-previous)
-      (define-key company-active-map (kbd "SPC") #'company-abort))
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)
+    ;;(define-key company-active-map (kbd "SPC") #'company-abort)
+    )
 #+END_SRC
 
 ** highlight indent guides
@@ -1033,34 +1041,40 @@ Not necessary with US layout
 
 * EVIL
 #+BEGIN_SRC emacs-lisp
-  (use-package evil
-    :ensure t
-    :init
-     (evil-mode 1))
-
-  (lexical-let ((default-color (cons (face-background 'mode-line)
-                                     (face-foreground 'mode-line))))
-    (add-hook 'post-command-hook
-              (lambda ()
-                (let ((color (cond ((minibufferp) default-color)
-                                   ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-                                   ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-                                   ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-                                   (t default-color))))
-                  (set-face-background 'mode-line (car color))
-                  (set-face-foreground 'mode-line (cdr color))))))
-
-  (use-package evil-paredit
-    :ensure t
-    :config
-    (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
-    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-    (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-    (add-hook 'geiser-repl-mode-hook      #'enable-paredit-mode))
-
-  (use-package undo-tree
-    :diminish undo-tree-mode)
+;;  (use-package evil
+;;    :ensure t
+;;    :init
+;;    (evil-mode 0)
+;;    :config
+;;    (setq evil-search-module 'evil-search)
+;;    )
+;;
+;;  (lexical-let ((default-color (cons (face-background 'mode-line)
+;;                                     (face-foreground 'mode-line))))
+;;    (add-hook 'post-command-hook
+;;              (lambda ()
+;;                (let ((color (cond ((minibufferp) default-color)
+;;                                   ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+;;                                   ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+;;                                   ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+;;                                   (t default-color))))
+;;                  (set-face-background 'mode-line (car color))
+;;                  (set-face-foreground 'mode-line (cdr color))))))
+;;
+;;  (use-package evil-paredit
+;;    :ensure t
+;;    :config
+;;    (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
+;;    (add-hook 'eval-expression-minibuffer-setup-hook 'evil-paredit-mode)
+;;    (add-hook 'ielm-mode-hook             'evil-paredit-mode)
+;;    (add-hook 'lisp-mode-hook             'evil-paredit-mode)
+;;    (add-hook 'lisp-interaction-mode-hook 'evil-paredit-mode)
+;;    (add-hook 'scheme-mode-hook           'evil-paredit-mode)
+;;    (add-hook 'geiser-repl-mode-hook      'evil-paredit-mode)
+;;    )
+;;
+;;  (use-package undo-tree
+;;    :diminish undo-tree-mode)
 #+END_SRC
+
+
