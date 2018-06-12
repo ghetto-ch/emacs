@@ -5,7 +5,7 @@
 *.html
 *.pdf
 *.tex
-*.cash
+*.cache
 
 eshell
 network-security.data
