@@ -5,6 +5,7 @@
       '(
 	org-self-insert-command
 	paredit-doublequote
+	paredit-forward-delete
 	paredit-forward-slurp-sexp
 	paredit-semicolon
 	))

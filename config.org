@@ -11,7 +11,7 @@
   (when (string-equal system-type "darwin")
     (set-face-attribute 'default nil
                         :height 150
-                        :family "Monaco"
+                        :family "Inconsolata LGC"
                         ))
   (when (string-equal system-type "gnu/linux")
     (set-face-attribute 'default nil
@@ -80,22 +80,23 @@ Besides, it's only used for programming.
 *** Pretty symbols
 Changes =lambda= to an actual symbol and a few others as well, only in the GUI version though.
 #+BEGIN_SRC emacs-lisp
-    (defun ghetto/prettify-symbols ()
-      "make some word or string show as pretty Unicode symbols"
-      (setq prettify-symbols-alist
-            '(
-              ("lambda" . 955) ; λ
-              ("->" . 8594)    ; →
-              ("=>" . 8658)    ; ⇒
-              ("phi" . ?φ)     ; φ
-              ("sqrt" . ?√)    ; √
-              ("<=" . ?≤)
-              (">=" . ?≥)
-              ("pi" . ?π)
-              )))
+  (defun ghetto/prettify-symbols ()
+    "make some word or string show as pretty Unicode symbols"
+    (setq prettify-symbols-alist
+          '(
+            ("lambda" . 955) ; λ
+            ("->" . 8594)    ; →
+            ("=>" . 8658)    ; ⇒
+            ("phi" . ?φ)     ; φ
+            ("sqrt" . ?√)    ; √
+            ("<=" . ?≤)
+            (">=" . ?≥)
+            ("pi" . ?π)
+            ("+-" . ?±)
+            )))
 
-    (add-hook 'prog-mode-hook 'ghetto/prettify-symbols)
-    (when window-system (global-prettify-symbols-mode t))
+  (add-hook 'prog-mode-hook 'ghetto/prettify-symbols)
+  (when window-system (global-prettify-symbols-mode t))
 #+END_SRC
 
 ** Functionality
@@ -469,7 +470,7 @@ You can also manually invoke =config-reload=.
 ** Subwords
 Emacs treats camelCase strings as a single word by default, this changes said behaviour.
 #+BEGIN_SRC emacs-lisp
-  (global-subword-mode 1)
+;;  (global-subword-mode 1)
 #+END_SRC
 
 ** Electric
@@ -861,7 +862,7 @@ CLOSED: [2018-05-18 Fri 20:46]
     :ensure t)
   (setq geiser-chez-binary "chez")
   (setq geiser-guile-binary "guile")
-
+  (setq geiser-guile-jump-on-debug-p t)
 #+END_SRC
 **** Paredit
 #+BEGIN_SRC emacs-lisp 

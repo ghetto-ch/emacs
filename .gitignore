@@ -5,6 +5,7 @@
 *.html
 *.pdf
 *.tex
+*.cash
 
 eshell
 network-security.data
@@ -17,3 +18,4 @@ smex-items
 tramp
 auto-save-list
 elpa
+games
