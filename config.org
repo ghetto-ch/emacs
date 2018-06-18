@@ -415,6 +415,7 @@ CLOSED: [2018-05-18 Fri 18:42]
   (global-set-key (kbd "M-i") 'helm-swoop-back-to-last-point)
   (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
   (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+  (global-set-key (kbd "C-M-y") 'helm-show-kill-ring)
 
   ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
   (setq helm-swoop-split-direction 'split-window-vertically)
@@ -465,12 +466,6 @@ You can also manually invoke =config-reload=.
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
   (global-set-key (kbd "C-c r") 'ghetto/config-reload)
-#+END_SRC
-
-** Subwords
-Emacs treats camelCase strings as a single word by default, this changes said behaviour.
-#+BEGIN_SRC emacs-lisp
-;;  (global-subword-mode 1)
 #+END_SRC
 
 ** Electric
@@ -527,25 +522,6 @@ A pretty simple package, takes your cursor and semantically expands the region, 
   (use-package expand-region
     :ensure t
     :bind ("C-q" . er/expand-region))
-#+END_SRC
-
-* Kill ring
-There is a lot of customization to the kill ring, and while I have not used it much before,
-I decided that it was time to change that.
-** Maximum entries on the ring
-The default is 60, I personally need more sometimes.
-#+BEGIN_SRC emacs-lisp
-  (setq kill-ring-max 100)
-#+END_SRC
-
-** popup-kill-ring
-Out of all the packages I tried out, this one, being the simplest, appealed to me most.
-With a simple M-y you can now browse your kill-ring like browsing autocompletion items.
-C-n and C-p totally work for this.
-#+BEGIN_SRC emacs-lisp
-  (use-package popup-kill-ring
-    :ensure t
-    :bind ("C-M-y" . popup-kill-ring))
 #+END_SRC
 
 * Programming
