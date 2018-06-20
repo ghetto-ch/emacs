@@ -388,6 +388,7 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-x b" . 'helm-buffers-list)
     ("M-x" . 'helm-M-x)
     ("C-c C-f" . 'helm-recentf)
+    ("C-c p G" . 'helm-projectile-grep)
     :config
     (setq
      helm-M-x-fuzzy-match t
@@ -424,6 +425,10 @@ CLOSED: [2018-05-18 Fri 18:42]
 
   (use-package helm-projectile
     :ensure t)
+  (helm-projectile-on)
+
+  (use-package helm-ag
+    :ensure t)
 #+END_SRC
 
 ** avy
@@ -451,27 +456,6 @@ I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= 
 Emacs is at it's best when it just does things for you, shows you the way, guides you so to speak.
 This can be best achieved using a number of small extensions. While on their own they might not be particularly
 impressive. Together they create a nice environment for you to work in.
-
-** Visiting the configuration
-Quickly edit =~/.emacs.d/config.org=
-#+BEGIN_SRC emacs-lisp
-  (defun ghetto/config-visit ()
-    (interactive)
-    (find-file "~/.emacs.d/config.org"))
-  (global-set-key (kbd "C-c e") 'ghetto/config-visit)
-#+END_SRC
-
-** Reloading the configuration
-   
-Simply pressing =Control-c r= will reload this file, very handy.
-You can also manually invoke =config-reload=.
-#+BEGIN_SRC emacs-lisp
-  (defun ghetto/config-reload ()
-    "Reloads ~/.emacs.d/config.org at runtime"
-    (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-  (global-set-key (kbd "C-c r") 'ghetto/config-reload)
-#+END_SRC
 
 ** Electric
 If you write any code, you may enjoy this.
@@ -1017,8 +1001,7 @@ Not necessary with US layout
   (use-package exec-path-from-shell
     :ensure t
     :init
-    (when (string-equal system-type "darwin")
-      (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize))
 #+END_SRC
 
 * EVIL
