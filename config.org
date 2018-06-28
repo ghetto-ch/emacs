@@ -16,7 +16,7 @@
   (when (string-equal system-type "gnu/linux")
     (set-face-attribute 'default nil
                         :height 120
-                        ;:family "Monaco"
+                        :family "Inconsolata"
                         ))
 #+END_SRC
 ** A nice theme
@@ -127,13 +127,17 @@ with a =.git= directory as projects and helps you manage them accordingly.
 ** Enable projectile globally
 This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-     :ensure t
-     :config
+    (use-package projectile
+      :ensure t
+      :config
       (setq projectile-completion-system 'helm)
       (setq projectile-mode-line '(:eval (format " Prj[%s]" (projectile-project-name))))
-     :init
-      (projectile-mode 1))
+      :init
+      (projectile-mode 1)
+      ;(setq projectile-indexing-method 'native)
+      ;(setq projectile-enable-caching t)
+      (setq projectile-globally-ignored-files '("._*"))    
+  )
 #+END_SRC
 
 ** Let projectile call make
@@ -150,11 +154,11 @@ change the numbers to suit your liking, I find 5 to be enough.
   (use-package dashboard
     :ensure t
     :config
-      (dashboard-setup-startup-hook)
-      (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
-      (setq dashboard-items '((recents  . 5)
-                              (projects . 5)))
-      (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
+    (dashboard-setup-startup-hook)
+    (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
+    (setq dashboard-items '((projects . 5)
+                            (recents  . 5)))
+    (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
 #+END_SRC
 * Modeline
 The modeline is the heart of emacs, it offers information at all times, it's persistent
@@ -213,12 +217,12 @@ with power-hungry processes in ansi-term
 #+END_SRC
 
 * The terminal
-** Default shell should be bash
+** Default shell should be zsh
 I don't know why this is a thing, but asking me what shell to launch every single
 time I open a terminal makes me want to slap babies, this gets rid of it.
 This goes without saying but you can replace bash with your shell of choice.
 #+BEGIN_SRC emacs-lisp
-  (defvar my-term-shell "/bin/bash")
+  (defvar my-term-shell "/bin/zsh")
   (defadvice ansi-term (before force-bash)
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
@@ -226,8 +230,8 @@ This goes without saying but you can replace bash with your shell of choice.
 
 ** Easy to remember keybinding
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<C-s-return>") 'ansi-term)
-  (global-set-key (kbd "<s-return>") 'eshell)
+  ;;(global-set-key (kbd "<C-s-return>") 'ansi-term)
+  (global-set-key (kbd "<C-s-return>") 'eshell)
 #+END_SRC
 
 * Moving around emacs
@@ -275,10 +279,14 @@ Some of us have large displays, others have tiny netbook screens, but regardless
 you probably use more than 2 panes/windows at times, cycling through all of them with
 =C-x o= is annoying to say the least, it's a lot of keystrokes and takes time, time you could spend doing something more productive.
 
-*** Use Super to move between windows
+*** Use windmove to move between windows
 #+BEGIN_SRC emacs-lisp
   ;; use command key on Mac
-  (windmove-default-keybindings 'super)
+  (setq wmmodifiers '(meta super))
+  (global-set-key (vector (append wmmodifiers '(left)))  'windmove-left)
+  (global-set-key (vector (append wmmodifiers '(right))) 'windmove-right)
+  (global-set-key (vector (append wmmodifiers '(up)))    'windmove-up)
+  (global-set-key (vector (append wmmodifiers '(down))) 'windmove-down)
   ;; wrap around at edges
   (setq windmove-wrap-around t)
 #+END_SRC
@@ -873,7 +881,7 @@ Pretty self-explanatory, useful as hell if you use exwm.
   (use-package sudo-edit
     :ensure t
     :bind
-      ("C-c s-f" . sudo-edit))
+      ("C-x M-f" . sudo-edit))
 #+END_SRC
 * Org
 One of the absolute greatest features of emacs is called "org-mode".
@@ -1042,4 +1050,8 @@ Not necessary with US layout
 ;;    :diminish undo-tree-mode)
 #+END_SRC
 
-
+* PDF tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t)
+#+END_SRC

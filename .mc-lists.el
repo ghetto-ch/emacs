@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	kill-region
 	org-self-insert-command
 	paredit-doublequote
 	paredit-forward-delete
