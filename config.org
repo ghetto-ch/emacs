@@ -156,8 +156,8 @@ change the numbers to suit your liking, I find 5 to be enough.
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
-    (setq dashboard-items '((projects . 5)
-                            (recents  . 5)))
+    (setq dashboard-items '((projects . 10)
+                            (recents  . 10)))
     (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
 #+END_SRC
 * Modeline
@@ -216,6 +216,23 @@ with power-hungry processes in ansi-term
     ("C-c s" . symon-mode))
 #+END_SRC
 
+** Highlight modified buffers
+#+BEGIN_SRC emacs-lisp
+  (require 'cl)
+  (lexical-let ((default-color (cons
+                                 (face-background 'mode-line)
+                                 (face-foreground 'mode-line))))
+     (add-hook 'post-command-hook
+               (lambda ()
+                 (let ((color (cond ((minibufferp) default-color)
+                                    (buffer-read-only default-color)
+                                    ((buffer-modified-p)   '("#e80000" . "#ffffff"))
+                                    (t default-color))))
+                   (set-face-background 'mode-line (car color))
+                   (set-face-foreground 'mode-line (cdr color))))))
+  (buffer-modified-p)
+
+#+END_SRC
 * The terminal
 ** Default shell should be zsh
 I don't know why this is a thing, but asking me what shell to launch every single
@@ -358,18 +375,36 @@ If you feel like you know how ibuffer works and need not to be asked for confirm
 #+BEGIN_SRC emacs-lisp
 (setq ibuffer-expert t)
 #+END_SRC
-*** close-all-buffers
-It's one of those things where I genuinely have to wonder why there is no built in functionality for it.
-Once in a blue moon I need to kill all buffers, and having ~150 of them open would mean I'd need to spend a few too many
-seconds doing this than I'd like, here's a solution.
-
-This can be invoked using =C-M-s-k=. This keybinding makes sure you don't hit it unless you really want to.
+**** grouping
 #+BEGIN_SRC emacs-lisp
-  (defun ghetto/close-all-buffers ()
-    "Kill all buffers without regard for their origin."
+  (defun ghetto/ibuffer-set-filter-groups ()
     (interactive)
-    (mapc 'kill-buffer (buffer-list)))
-  (global-set-key (kbd "C-M-s-k") 'ghetto/close-all-buffers)
+    (setq ibuffer-filter-groups 
+          (append
+           (ibuffer-projectile-generate-filter-groups)
+           (list
+            '("emacs" (or (name . "^\\*scratch\\*$")
+                          (name . "^\\*Messages\\*$")
+                          (name . "^\\*Dashboard\\*$")))
+            '("dired" (mode . dired-mode))
+          
+            '("Org" (mode . org-mode))
+            '("repl" (name . ".*REPL*")))
+           ))
+
+    (let ((ibuf (get-buffer "*Ibuffer*")))
+      (when ibuf
+        (with-current-buffer ibuf
+          (pop-to-buffer ibuf)
+          (ibuffer-update nil t)))))
+
+  (add-hook 'ibuffer-hook
+      (lambda ()
+        (ghetto/ibuffer-set-filter-groups)
+        (unless (eq ibuffer-sorting-mode 'alphabetic)
+          (ibuffer-do-sort-by-alphabetic))))
+
+  (setq ibuffer-show-empty-filter-groups nil)
 #+END_SRC
 
 ** line numbers and programming
