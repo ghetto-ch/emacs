@@ -441,8 +441,9 @@ CLOSED: [2018-05-18 Fri 18:42]
      helm-imenu-fuzzy-match t
      helm-split-window-in-side-p nil
      )
-    (define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
-    (define-key helm-find-files-map (kbd "C-<backspace>") 'helm-find-files-up-one-level)
+    ;(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
+    ;(define-key helm-find-files-map (kbd "C-<backspace>") 'helm-find-files-up-one-level)
+
     :init
     (helm-mode 1)
     :diminish helm-mode)
