@@ -157,6 +157,7 @@ change the numbers to suit your liking, I find 5 to be enough.
     (dashboard-setup-startup-hook)
     (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
     (setq dashboard-items '((projects . 10)
+                            (bookmarks . 10)
                             (recents  . 10)))
     (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
 #+END_SRC
