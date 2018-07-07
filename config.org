@@ -1090,5 +1090,7 @@ Not necessary with US layout
 * PDF tools
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
-    :ensure t)
+    :ensure t
+    :config
+    (pdf-tools-install))
 #+END_SRC
