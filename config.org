@@ -151,15 +151,15 @@ provides you with a quick look into your latest projects and files.
 Change the welcome message to whatever string you want and
 change the numbers to suit your liking, I find 5 to be enough.
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
-    (setq dashboard-items '((projects . 10)
-                            (bookmarks . 10)
-                            (recents  . 10)))
-    (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
+  ;(use-package dashboard
+  ;  :ensure t
+  ;  :config
+  ;  (dashboard-setup-startup-hook)
+  ;  (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
+  ;  (setq dashboard-items '((projects . 10)
+  ;                          (bookmarks . 10)
+  ;                          (recents  . 10)))
+  ;  (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
 #+END_SRC
 * Modeline
 The modeline is the heart of emacs, it offers information at all times, it's persistent
@@ -432,7 +432,7 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-x b" . 'helm-buffers-list)
     ("M-x" . 'helm-M-x)
     ("C-c C-f" . 'helm-recentf)
-    ("C-c p G" . 'helm-projectile-grep)
+    ;("C-c p G" . 'helm-projectile-grep)
     :config
     (setq
      helm-M-x-fuzzy-match t
@@ -440,7 +440,7 @@ CLOSED: [2018-05-18 Fri 18:42]
      helm-recentf-fuzzy-match t
      helm-semantic-fuzzy-match t
      helm-imenu-fuzzy-match t
-     helm-split-window-in-side-p nil
+     helm-split-window-inside-p t
      )
     ;(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
     ;(define-key helm-find-files-map (kbd "C-<backspace>") 'helm-find-files-up-one-level)
@@ -465,7 +465,7 @@ CLOSED: [2018-05-18 Fri 18:42]
 
   ;; Split direcion. 'split-window-vertically or 'split-window-horizontally
   (setq helm-swoop-split-direction 'split-window-vertically)
-  (setq helm-swoop-split-with-multiple-windows nil)
+  (setq helm-swoop-split-with-multiple-windows t)
   ;;(setq helm-swoop-use-fuzzy-match t)
 
   (use-package helm-projectile
@@ -496,6 +496,7 @@ I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= 
     ("C->" . mc/mark-next-like-this)
     ("C-<" . mc/mark-previous-like-this)
     ("C-c C-<" . mc/mark-all-like-this))
+  (require 'mc-hide-unmatched-lines-mode)
 #+END_SRC
 * Minor conveniences
 Emacs is at it's best when it just does things for you, shows you the way, guides you so to speak.
@@ -604,7 +605,7 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
     :init
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
     :config
-    (setq highlight-indent-guides-method 'character)
+    (setq highlight-indent-guides-method 'column)
     (setq highlight-indent-guides-responsive 'top)
     (setq highlight-indent-guides-delay 0)
     )
@@ -1011,6 +1012,7 @@ Edit this list as you see fit!
     (diminish 'page-break-lines-mode)
     (diminish 'auto-revert-mode)
     (diminish 'visual-line-mode)
+    (diminish 'geiser-autodoc-mode)
     )
 #+END_SRC
 

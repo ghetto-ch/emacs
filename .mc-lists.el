@@ -14,5 +14,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+	end-of-buffer
+	helm-M-x
 	mouse-set-region
 	))
