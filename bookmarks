@@ -2,8 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(
-("ghettosrv"
+(("ghettosrv"
  (filename . "/ssh:192.168.7.3:/home/ghetto/")
  (front-context-string . ".aptitude\n  -rw-")
  (rear-context-string . "96 Oct 19  2016 ")
@@ -14,12 +13,8 @@
  (rear-context-string . "96 Jun 14 22:26 ")
  (position . 213))
 ("transmission"
- (filename .
-	   #("/ssh:192.168.7.3:/pool1/Data/transmission/" 1 4
-	     (helm-ff-file t helm-ff-dir t)
-	     5 16
-	     (helm-ff-file t helm-ff-dir t)))
- (front-context-string)
- (rear-context-string . "Jul  1 14:57 ..\n")
- (position . 207))
+ (filename . "/ssh:192.168.7.3|sudo:debian-transmission@192.168.7.3:/pool1/Data/transmission/")
+ (front-context-string . ".\n  drwxr-xr-x 1")
+ (rear-context-string . " 3 Jul 14 11:39 ")
+ (position . 168))
 )

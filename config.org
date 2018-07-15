@@ -558,7 +558,10 @@ A pretty simple package, takes your cursor and semantically expands the region, 
     :ensure t
     :bind ("C-q" . er/expand-region))
 #+END_SRC
-
+** Dired
+#+BEGIN_SRC emacs-lisp
+  (setq dired-listing-switches "-alh")
+#+END_SRC
 * Programming
 Minor, non-completion related settings and plugins for writing code.
 ** yasnippet
@@ -1050,7 +1053,11 @@ Not necessary with US layout
     :init
     (exec-path-from-shell-initialize))
 #+END_SRC
-
+** auth-sources
+#+BEGIN_SRC emacs-lisp
+  (setq auth-sources
+        '((:source "~/.emacs.d/secrets/.authinfo.gpg")))
+#+END_SRC
 * EVIL
 #+BEGIN_SRC emacs-lisp
 ;;  (use-package evil

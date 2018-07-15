@@ -19,3 +19,4 @@ tramp
 auto-save-list
 elpa
 games
+/secrets/.authinfo.gpg
