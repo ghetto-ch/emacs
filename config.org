@@ -60,7 +60,8 @@ If you like using any of those, change =-1= to =1=.
 *** Disable bell
 This is annoying, remove this line if you like being visually reminded of events.
 #+BEGIN_SRC emacs-lisp
-(setq ring-bell-function 'ignore)
+;;(setq ring-bell-function 'ignore)
+(setq visible-bell t)
 #+END_SRC
 *** Set UTF-8 encoding
 #+BEGIN_SRC emacs-lisp 
@@ -264,8 +265,8 @@ Do me the favor, do me the biggest favor, matter of fact do yourself the biggest
 
 ** a prerequisite for others packages
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :ensure t)
+;;  (use-package ivy
+;;   :ensure t)
 #+END_SRC
 
 ** scrolling
@@ -375,34 +376,39 @@ If you feel like you know how ibuffer works and need not to be asked for confirm
 #+END_SRC
 **** grouping
 #+BEGIN_SRC emacs-lisp
-  (defun ghetto/ibuffer-set-filter-groups ()
-    (interactive)
-    (setq ibuffer-filter-groups 
-          (append
-           (ibuffer-projectile-generate-filter-groups)
-           (list
-            '("emacs" (or (name . "^\\*scratch\\*$")
-                          (name . "^\\*Messages\\*$")
-                          (name . "^\\*Dashboard\\*$")))
-            '("dired" (mode . dired-mode))
-          
-            '("Org" (mode . org-mode))
-            '("repl" (name . ".*REPL*")))
-           ))
+  (use-package ibuffer-projectile
+    :ensure t
+    :config
 
-    (let ((ibuf (get-buffer "*Ibuffer*")))
-      (when ibuf
-        (with-current-buffer ibuf
-          (pop-to-buffer ibuf)
-          (ibuffer-update nil t)))))
+    (defun ghetto/ibuffer-set-filter-groups ()
+      (interactive)
+      (setq ibuffer-filter-groups 
+            (append
+             (ibuffer-projectile-generate-filter-groups)
+             (list
+              '("emacs" (or (name . "^\\*scratch\\*$")
+                            (name . "^\\*Messages\\*$")
+                            (name . "^\\*Dashboard\\*$")))
+              '("dired" (mode . dired-mode))
 
-  (add-hook 'ibuffer-hook
-      (lambda ()
-        (ghetto/ibuffer-set-filter-groups)
-        (unless (eq ibuffer-sorting-mode 'alphabetic)
-          (ibuffer-do-sort-by-alphabetic))))
+              '("Org" (mode . org-mode))
+              '("repl" (name . ".*REPL*")))
+             ))
 
-  (setq ibuffer-show-empty-filter-groups nil)
+      (let ((ibuf (get-buffer "*Ibuffer*")))
+        (when ibuf
+          (with-current-buffer ibuf
+            (pop-to-buffer ibuf)
+            (ibuffer-update nil t)))))
+
+    (add-hook 'ibuffer-hook
+              (lambda ()
+                (ghetto/ibuffer-set-filter-groups)
+                (unless (eq ibuffer-sorting-mode 'alphabetic)
+                  (ibuffer-do-sort-by-alphabetic))))
+
+    (setq ibuffer-show-empty-filter-groups nil))
+
 #+END_SRC
 
 ** line numbers and programming
@@ -474,12 +480,13 @@ CLOSED: [2018-05-18 Fri 18:42]
 #+END_SRC
 
 ** avy
-I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= is moving by searching characters.
 #+BEGIN_SRC emacs-lisp
   (use-package avy
     :ensure t
     :bind
-    ("C-M-s" . avy-goto-char))
+    ("C-;" . avy-goto-char)
+    ("C-M-;" . avy-goto-line)
+    )
 
 #+END_SRC
 * Text manipulation
@@ -562,6 +569,27 @@ A pretty simple package, takes your cursor and semantically expands the region, 
   (setq dired-dwim-target t)
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
   (require 'dired-fixups)
+
+  (use-package dired-collapse
+    :ensure t)
+
+  (use-package dired-hide-dotfiles
+    :ensure t
+    :config
+    (defun my-dired-mode-hook ()
+      "My `dired' mode hook."
+      ;; To hide dot-files by default
+      ;;(dired-hide-dotfiles-mode)
+      ;; To toggle hiding
+      (define-key dired-mode-map "." #'dired-hide-dotfiles-mode))
+    (add-hook 'dired-mode-hook #'my-dired-mode-hook))
+
+
+#+END_SRC
+** Ranger
+#+BEGIN_SRC emacs-lisp
+  (use-package ranger
+    :ensure t)
 #+END_SRC
 * Programming
 Minor, non-completion related settings and plugins for writing code.
