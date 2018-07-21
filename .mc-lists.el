@@ -3,6 +3,7 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+	dired-unmark-backward
 	indent-for-tab-command
 	kill-region
 	org-self-insert-command
@@ -10,10 +11,12 @@
 	paredit-forward-delete
 	paredit-forward-slurp-sexp
 	paredit-semicolon
+	shell-command-on-region
 	))
 
 (setq mc/cmds-to-run-once
       '(
+	dired-toggle-read-only
 	end-of-buffer
 	helm-M-x
 	mouse-set-region

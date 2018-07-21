@@ -236,12 +236,9 @@ with power-hungry processes in ansi-term
 #+END_SRC
 * The terminal
 ** Default shell should be zsh
-I don't know why this is a thing, but asking me what shell to launch every single
-time I open a terminal makes me want to slap babies, this gets rid of it.
-This goes without saying but you can replace bash with your shell of choice.
 #+BEGIN_SRC emacs-lisp
   (defvar my-term-shell "/bin/zsh")
-  (defadvice ansi-term (before force-bash)
+  (defadvice ansi-term (before force-zsh)
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
@@ -558,9 +555,13 @@ A pretty simple package, takes your cursor and semantically expands the region, 
     :ensure t
     :bind ("C-q" . er/expand-region))
 #+END_SRC
+
 ** Dired
 #+BEGIN_SRC emacs-lisp
   (setq dired-listing-switches "-alh")
+  (setq dired-dwim-target t)
+  (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
+  (require 'dired-fixups)
 #+END_SRC
 * Programming
 Minor, non-completion related settings and plugins for writing code.
@@ -1103,3 +1104,4 @@ Not necessary with US layout
     :config
     (pdf-tools-install))
 #+END_SRC
+
