@@ -494,15 +494,16 @@ CLOSED: [2018-05-18 Fri 18:42]
   (use-package window-purpose
     :ensure t
     :bind
-    ("C-c , l" . 'purpose-load-window-layout)
-    ("C-c , s" . 'purpose-save-window-layout)
+    ("C-c , l" . purpose-load-window-layout)
+    ("C-c , s" . purpose-save-window-layout)
     :config
     (add-to-list 'purpose-user-mode-purposes '(prog-mode . source))
     (add-to-list 'purpose-user-mode-purposes '(pdf-view-mode . pdf))
     (add-to-list 'purpose-user-mode-purposes '(geiser-debug-mode . dbg))
     (add-to-list 'purpose-user-regexp-purposes '(".*REPL*" . repl))
     (purpose-compile-user-configuration)
-    (purpose-mode))
+    :diminish purpose-mode)
+  (purpose-mode)
 #+END_SRC
 * Text manipulation
 ** Multiple cursors
