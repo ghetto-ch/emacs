@@ -133,11 +133,13 @@ This makes sure that everything can be a project.
       :config
       (setq projectile-completion-system 'helm)
       (setq projectile-mode-line '(:eval (format " Prj[%s]" (projectile-project-name))))
+    
       :init
+      (setq projectile-keymap-prefix (kbd "C-c p"))
       (projectile-mode 1)
       ;(setq projectile-indexing-method 'native)
       ;(setq projectile-enable-caching t)
-      (setq projectile-globally-ignored-files '("._*"))    
+      (setq projectile-globally-ignored-files '("._*"))
   )
 #+END_SRC
 
@@ -423,7 +425,27 @@ If you feel like you know how ibuffer works and need not to be asked for confirm
   ;;  (setq-local display-line-numbers 'visual)
   ;;  (line-number-mode t))
 #+END_SRC
-
+** Purpose
+#+BEGIN_SRC emacs-lisp
+  (use-package window-purpose
+    :ensure t
+    :bind
+    ("C-c , l" . purpose-load-window-layout)
+    ("C-c , s" . purpose-save-window-layout)
+    :config
+    (add-to-list 'purpose-user-mode-purposes '(prog-mode . source))
+    (add-to-list 'purpose-user-mode-purposes '(pdf-view-mode . pdf))
+    (add-to-list 'purpose-user-mode-purposes '(geiser-debug-mode . dbg))
+    (add-to-list 'purpose-user-regexp-purposes '(".*REPL*" . repl))
+    (add-to-list 'purpose-user-name-purposes '("*Python Doc*" . pydoc))
+    (add-to-list 'purpose-user-mode-purposes '(inferior-python-mode . pyshell))
+    (add-to-list 'purpose-user-mode-purposes '(compilation-mode . compiler))
+    (purpose-compile-user-configuration)
+    :diminish purpose-mode)
+  (purpose-mode)
+  (define-key purpose-mode-map (kbd "C-x C-f") 'helm-find-files)
+  (define-key purpose-mode-map (kbd "C-x b") 'helm-buffers-list)
+#+END_SRC
 ** DONE helm
 CLOSED: [2018-05-18 Fri 18:42]
 *** helm
@@ -434,7 +456,7 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-x C-f" . 'helm-find-files)
     ("C-x b" . 'helm-buffers-list)
     ("M-x" . 'helm-M-x)
-    ("C-c C-f" . 'helm-recentf)
+    ("C-c C-f" . 'helm-mini)
     ;("C-c p G" . 'helm-projectile-grep)
     :config
     (setq
@@ -488,22 +510,6 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-M-;" . avy-goto-line)
     )
 
-#+END_SRC
-** Purpose
-#+BEGIN_SRC emacs-lisp
-  (use-package window-purpose
-    :ensure t
-    :bind
-    ("C-c , l" . purpose-load-window-layout)
-    ("C-c , s" . purpose-save-window-layout)
-    :config
-    (add-to-list 'purpose-user-mode-purposes '(prog-mode . source))
-    (add-to-list 'purpose-user-mode-purposes '(pdf-view-mode . pdf))
-    (add-to-list 'purpose-user-mode-purposes '(geiser-debug-mode . dbg))
-    (add-to-list 'purpose-user-regexp-purposes '(".*REPL*" . repl))
-    (purpose-compile-user-configuration)
-    :diminish purpose-mode)
-  (purpose-mode)
 #+END_SRC
 * Text manipulation
 ** Multiple cursors
@@ -649,7 +655,7 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
     :ensure t
     :config
     (company-quickhelp-mode)
-    (setq company-quickhelp-delay 0.5))
+    (setq company-quickhelp-delay 2))
 #+END_SRC
 
 ** highlight indent guides
@@ -722,7 +728,7 @@ Requires libclang to be installed.
         :ensure t
         :config
         (setq-local company-backends '((company-c-headers
-                                  company-dabbrev-code
+                                  ;company-dabbrev-code
                                   company-irony)))
         )
 
@@ -773,24 +779,19 @@ Requires libclang to be installed.
 **** TODO company
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
-      (add-hook 'python-mode-hook 'company-mode))
+    (add-hook 'python-mode-hook 'company-mode))
 
-;;  (use-package company-jedi
-;;    :ensure t
-;;    :config
-;;      (require 'company)
-;;      (add-to-list 'company-backends 'company-jedi))
-;;
-;;  (defun python-mode-company-init ()
-;;    (setq-local company-backends '((company-jedi
-;;                                    company-etags
-;;                                    company-dabbrev-code))))
-;;
-;;  (use-package company-jedi
-;;    :ensure t
-;;    :config
-;;      (require 'company)
-;;      (add-hook 'python-mode-hook 'python-mode-company-init))
+  (use-package company-jedi
+    :ensure t
+    :config
+    (require 'company)
+    (add-hook 'python-mode-hook 'python-mode-company-init))
+
+  (defun python-mode-company-init ()
+    (setq-local company-backends '((company-jedi
+				    company-etags
+				    ;company-dabbrev-code
+				    ))))
 #+END_SRC
 
 **** autopep8
@@ -840,6 +841,7 @@ Requires libclang to be installed.
           (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
                  (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
             (pyenv-mode-set pyenv-current-version)
+            (pyvenv-workon pyenv-current-version)
             (message (concat "Setting virtualenv to " pyenv-current-version))))))
 
   (defvar pyenv-current-version nil nil)
@@ -898,12 +900,13 @@ CLOSED: [2018-05-18 Fri 20:46]
 **** company
 #+BEGIN_SRC emacs-lisp
   (add-hook 'sh-mode-hook 'company-mode)
-  
+
   (defun shell-mode-company-init ()
     (setq-local company-backends '((company-shell
-                                    company-shell-env
-                                    company-etags
-                                    company-dabbrev-code))))
+				    company-shell-env
+				    company-etags
+				    ;company-dabbrev-code
+				    ))))
 
   (use-package company-shell
     :ensure t
