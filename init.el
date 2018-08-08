@@ -26,7 +26,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-quickhelp window-purpose ibuffer-projectile all-the-icons-dired dired-hide-dotfiles dired-collapse ranger pdf-tools helm-ag helm-projectile exec-path-from-shell diminish ox-twbs org-bullets htmlize sudo-edit magit paredit geiser company-shell slime-company slime pyenv-mode py-autopep8 company-irony company-c-headers flycheck-clang-analyzer platformio-mode highlight-indent-guides company flycheck yasnippet-snippets yasnippet expand-region rainbow-delimiters rainbow-mode multiple-cursors avy helm-swoop helm which-key symon spaceline projectile async zenburn-theme use-package))))
+    (cheatsheet company-quickhelp window-purpose ibuffer-projectile all-the-icons-dired dired-hide-dotfiles dired-collapse ranger pdf-tools helm-ag helm-projectile exec-path-from-shell diminish ox-twbs org-bullets htmlize sudo-edit magit paredit geiser company-shell slime-company slime pyenv-mode py-autopep8 company-irony company-c-headers flycheck-clang-analyzer platformio-mode highlight-indent-guides company flycheck yasnippet-snippets yasnippet expand-region rainbow-delimiters rainbow-mode multiple-cursors avy helm-swoop helm which-key symon spaceline projectile async zenburn-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

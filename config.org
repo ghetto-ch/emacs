@@ -102,7 +102,6 @@ Changes =lambda= to an actual symbol and a few others as well, only in the GUI v
 
 ** Functionality
 *** Disable backups and auto-saves
-I don't use either, you might want to turn those from =nil= to =t= if you do.
 #+BEGIN_SRC emacs-lisp
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -114,7 +113,7 @@ I don't use either, you might want to turn those from =nil= to =t= if you do.
 #+END_SRC
 
 *** Async
-Lets us use asynchronous processes wherever possible, pretty useful.
+
 #+BEGIN_SRC emacs-lisp
   (use-package async
     :ensure t
@@ -122,11 +121,10 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 #+END_SRC
 
 * Projectile
-Projectile is an awesome project manager, mostly because it recognizes directories
-with a =.git= directory as projects and helps you manage them accordingly.
+
 
 ** Enable projectile globally
-This makes sure that everything can be a project.
+
 #+BEGIN_SRC emacs-lisp
     (use-package projectile
       :ensure t
@@ -148,28 +146,10 @@ This makes sure that everything can be a project.
   (global-set-key (kbd "<f5>") 'projectile-compile-project)
 #+END_SRC
 
-* Dashboard
-This is your new startup screen, together with projectile it works in unison and
-provides you with a quick look into your latest projects and files.
-Change the welcome message to whatever string you want and
-change the numbers to suit your liking, I find 5 to be enough.
-#+BEGIN_SRC emacs-lisp
-  ;(use-package dashboard
-  ;  :ensure t
-  ;  :config
-  ;  (dashboard-setup-startup-hook)
-  ;  (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
-  ;  (setq dashboard-items '((projects . 10)
-  ;                          (bookmarks . 10)
-  ;                          (recents  . 10)))
-  ;  (setq dashboard-banner-logo-title "Welcome to ghettomacs"))
-#+END_SRC
 * Modeline
-The modeline is the heart of emacs, it offers information at all times, it's persistent
-and verbose enough to gain a full understanding of modes and states you are in.
-One modeline-related setting that is missing and is instead placed at the bottom is =diminish=.
+
 ** Spaceline!
-This enables spaceline, it looks better and works very well with my theme of choice.
+
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :ensure t
@@ -182,15 +162,13 @@ This enables spaceline, it looks better and works very well with my theme of cho
       (spaceline-spacemacs-theme))
 #+END_SRC
 ** Cursor position
-Show the current line and column for your cursor.
-We are not going to have =relative-linum-mode= in every major mode, so this is useful.
+
 #+BEGIN_SRC emacs-lisp
   (setq line-number-mode t)
   (setq column-number-mode t)
 #+END_SRC
 
 ** Clock
-If you prefer the 12hr-format, change the variable to =nil= instead of =t=.
 
 *** Time format
 #+BEGIN_SRC emacs-lisp
@@ -210,8 +188,6 @@ This turns on the clock globally.
   (setq display-time-load-average nil)
 #+END_SRC
 ** System monitor
-A teeny-tiny system monitor that can be enabled or disabled at runtime, useful for checking performance
-with power-hungry processes in ansi-term
 
 #+BEGIN_SRC emacs-lisp
   (use-package symon
@@ -253,17 +229,6 @@ with power-hungry processes in ansi-term
 #+END_SRC
 
 * Moving around emacs
-One of the most important things about a text editor is how efficient you manage
-to be when using it, how much time do basic tasks take you and so on and so forth.
-One of those tasks is moving around files and buffers, whatever you may use emacs for
-you /will/ be jumping around buffers like it's serious business, the following
-set of enhancements aims to make it easier.
-
-As a great emacs user once said:
-
-#+BEGIN_QUOTE
-Do me the favor, do me the biggest favor, matter of fact do yourself the biggest favor and integrate those into your workflow.
-#+END_QUOTE
 
 ** a prerequisite for others packages
 #+BEGIN_SRC emacs-lisp
@@ -277,13 +242,7 @@ Do me the favor, do me the biggest favor, matter of fact do yourself the biggest
 #+END_SRC
 
 ** which-key and why I love emacs
-In order to use emacs, you don't need to know how to use emacs.
-It's self documenting, and coupled with this insanely useful package, it's even easier.
-In short, after you start the input of a command and stop, pondering what key must follow,
-it will automatically open a non-intrusive buffer at the bottom of the screen offering
-you suggestions for completing the command, that's it, nothing else.
 
-It's beautiful
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
@@ -293,9 +252,6 @@ It's beautiful
 #+END_SRC
 
 ** windows,panes and why I hate other-window
-Some of us have large displays, others have tiny netbook screens, but regardless of your hardware
-you probably use more than 2 panes/windows at times, cycling through all of them with
-=C-x o= is annoying to say the least, it's a lot of keystrokes and takes time, time you could spend doing something more productive.
 
 *** Use windmove to move between windows
 #+BEGIN_SRC emacs-lisp
@@ -310,8 +266,7 @@ you probably use more than 2 panes/windows at times, cycling through all of them
 #+END_SRC
 
 *** Following window splits
-After you split a window, your focus remains in the previous one.
-This annoyed me so much I wrote these two, they take care of it.
+
 #+BEGIN_SRC emacs-lisp
   (defun ghetto/split-and-follow-horizontally ()
     (interactive)
@@ -340,12 +295,9 @@ This annoyed me so much I wrote these two, they take care of it.
   (winner-mode 1)
 #+END_SRC
 ** buffers and why I hate list-buffers
-Another big thing is, buffers. If you use emacs, you use buffers, everyone loves them.
-Having many buffers is useful, but can be tedious to work with, let us see how we can improve it.
 
 *** Always murder current buffer
-Doing =C-x k= should kill the current buffer at all times, we have =ibuffer= for more sophisticated thing.
-GHETTO UPGRADE: emacs already have a function for this: kill-this-buffer
+
 #+BEGIN_SRC emacs-lisp
 ;;  (defun kill-current-buffer ()
 ;;    "Kills the current buffer."
@@ -358,21 +310,19 @@ GHETTO UPGRADE: emacs already have a function for this: kill-this-buffer
 #+END_SRC
 
 *** TODO Kill buffers without asking for confirmation
-Unless you have the muscle memory, I recommend omitting this bit, as you may lose progress for no reason when working.
+
 #+BEGIN_SRC emacs-lisp
 ;;(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 #+END_SRC
 
 *** Turn switch-to-buffer into ibuffer
-I don't understand how ibuffer isn't the default option by now.
-It's vastly superior in terms of ergonomics and functionality, you can delete buffers, rename buffer, move buffers, organize buffers etc.
-GHETTO MODIFICATION: bind to C-x C-b instead of C-x b
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
 
 **** expert-mode
-If you feel like you know how ibuffer works and need not to be asked for confirmation after every serious command, enable this as follows.
+
 #+BEGIN_SRC emacs-lisp
 (setq ibuffer-expert t)
 #+END_SRC
@@ -525,16 +475,7 @@ CLOSED: [2018-05-18 Fri 18:42]
   (require 'mc-hide-unmatched-lines-mode)
 #+END_SRC
 * Minor conveniences
-Emacs is at it's best when it just does things for you, shows you the way, guides you so to speak.
-This can be best achieved using a number of small extensions. While on their own they might not be particularly
-impressive. Together they create a nice environment for you to work in.
-
 ** Electric
-If you write any code, you may enjoy this.
-Typing the first character in a set of 2, completes the second one after your cursor.
-Opening a bracket? It's closed for you already. Quoting something? It's closed for you already.
-
-You can easily add and remove pairs yourself, have a look.
 #+BEGIN_SRC emacs-lisp
 (setq electric-pair-pairs '(
                            (?\{ . ?\})
@@ -550,9 +491,7 @@ And now to enable it
 #+END_SRC
 
 ** Rainbow
-Mostly useful if you are into web development or game development.
-Every time emacs encounters a hexadecimal code that resembles a color, it will automatically highlight
-it in the appropriate color. This is a lot cooler than you may think.
+
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :ensure t
@@ -562,13 +501,12 @@ it in the appropriate color. This is a lot cooler than you may think.
 #+END_SRC
 
 ** Show parens
-I forgot about that initially, it highlights matching parens when the cursor is just behind one of them.
+
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
 ** Rainbow delimiters
-Colors parentheses and other delimiters depending on their depth, useful for any language using them,
-especially lisp.
+
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
@@ -578,7 +516,7 @@ especially lisp.
 #+END_SRC
 
 ** Expand region
-A pretty simple package, takes your cursor and semantically expands the region, so words, sentences, maybe the contents of some parentheses, it's awesome, try it out.
+
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region
     :ensure t
@@ -627,14 +565,12 @@ Minor, non-completion related settings and plugins for writing code.
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t)
+    :ensure t
+    :diminish 'flycheck-mode)
 #+END_SRC
 
 ** company mode
-I set the delay for company mode to kick in to half a second, I also make sure that
-it starts doing its magic after typing in only 2 characters.
 
-I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
@@ -689,11 +625,6 @@ I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
     )
 #+END_SRC
 ** specific languages
-Be it for code or prose, completion is a must.
-After messing around with =auto-completion= for a while I decided to drop it
-in favor of =company=, and it turns out to have been a great decision.
-
-Each category also has additional settings.
 
 *** TODO c/c++
 **** yasnippet
@@ -717,55 +648,56 @@ Each category also has additional settings.
 **** company
 Requires libclang to be installed.
 #+BEGIN_SRC emacs-lisp
-      (with-eval-after-load 'company
-        (add-hook 'c++-mode-hook 'company-mode)
-        (add-hook 'c-mode-hook 'company-mode))
+  (with-eval-after-load 'company
+    (add-hook 'c++-mode-hook 'company-mode)
+    (add-hook 'c-mode-hook 'company-mode))
 
-      (use-package company-c-headers
-        :ensure t)
+  (use-package company-c-headers
+    :ensure t)
 
-      (use-package company-irony
-        :ensure t
-        :config
-        (setq-local company-backends '((company-c-headers
-                                  ;company-dabbrev-code
-                                  company-irony)))
-        )
+  (use-package company-irony
+    :ensure t
+    :config
+    (setq-local company-backends '((company-c-headers
+                              ;company-dabbrev-code
+                              company-irony)))
+    )
 
-      (use-package irony
-        :ensure t
-        :config
-        (add-hook 'c++-mode-hook 'irony-mode)
-        (add-hook 'c-mode-hook 'irony-mode)
-        (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  (use-package irony
+    :ensure t
+    :config
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+    :diminish 'irony-mode)
 #+END_SRC
 
 **** TODO helm+ggtags
-;;#+BEGIN_SRC emacs-lisp
-;;  (setq
-;;   helm-gtags-ignore-case t
-;;   helm-gtags-auto-update t
-;;   helm-gtags-use-input-at-cursor t
-;;   helm-gtags-pulse-at-cursor t
-;;   helm-gtags-prefix-key "\C-cg"
-;;   helm-gtags-suggested-key-mapping t
-;;   )
-;;
-;;  (require 'helm-gtags)
-;;  ;; Enable helm-gtags-mode
-;;  (add-hook 'dired-mode-hook 'helm-gtags-mode)
-;;  (add-hook 'eshell-mode-hook 'helm-gtags-mode)
-;;  (add-hook 'c-mode-hook 'helm-gtags-mode)
-;;  (add-hook 'c++-mode-hook 'helm-gtags-mode)
-;;  (add-hook 'asm-mode-hook 'helm-gtags-mode)
-;;
-;;  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-;;  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
-;;  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-;;  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-;;  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-;;  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-;;#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq
+   helm-gtags-ignore-case t
+   helm-gtags-auto-update t
+   helm-gtags-use-input-at-cursor t
+   helm-gtags-pulse-at-cursor t
+   helm-gtags-prefix-key "\C-cg"
+   helm-gtags-suggested-key-mapping t
+   )
+
+  (require 'helm-gtags)
+  ;; Enable helm-gtags-mode
+  (add-hook 'dired-mode-hook 'helm-gtags-mode)
+  (add-hook 'eshell-mode-hook 'helm-gtags-mode)
+  (add-hook 'c-mode-hook 'helm-gtags-mode)
+  (add-hook 'c++-mode-hook 'helm-gtags-mode)
+  (add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+#+END_SRC
 *** python
 **** yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -956,9 +888,7 @@ CLOSED: [2018-05-18 Fri 20:46]
 #+END_SRC
 
 * Git integration
-Countless are the times where I opened ansi-term to use =git= on something.
-These times are also something that I'd prefer stay in the past, since =magit= is
-great. It's easy and intuitive to use, shows its options at a keypress and much more.
+
 ** magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -971,8 +901,6 @@ great. It's easy and intuitive to use, shows its options at a keypress and much 
 #+END_SRC
 
 * Remote editing
-+I have no need to directly edit files over SSH, but+ what I do need is a way to edit files as root.
-Opening up nano in a terminal as root to play around with grubs default settings is a no-no, this solves that.
 ** Tramp
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
@@ -987,13 +915,6 @@ Pretty self-explanatory, useful as hell if you use exwm.
       ("C-x M-f" . sudo-edit))
 #+END_SRC
 * Org
-One of the absolute greatest features of emacs is called "org-mode".
-This very file has been written in org-mode, a lot of other configurations are written in org-mode, same goes for
-academic papers, presentations, schedules, blogposts and guides.
-Org-mode is one of the most complex things ever, lets make it a bit more usable with some basic configuration.
-
-
-Those are all rather self-explanatory.
 
 ** Common settings
 
@@ -1021,7 +942,7 @@ Those are all rather self-explanatory.
 	       (visual-line-mode 1)))
 #+END_SRC
 
-** Keybindings
+** TODO Keybindings
 #+BEGIN_SRC emacs-lisp
   ;;(global-set-key (kbd "C-c '") 'org-edit-src-code)
   ;;(global-set-key "\C-cl") 'org-store-link)
@@ -1031,7 +952,7 @@ Those are all rather self-explanatory.
 #+END_SRC
 
 ** Org Bullets
-Makes it all look a bit nicer, I hate looking at asterisks.
+
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
@@ -1047,8 +968,6 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
 #+END_SRC
 
 ** Exporting options
-One of the best things about org is the ability to export your file to many formats.
-Here is how we add more of them!
 
 *** latex
 #+BEGIN_SRC emacs-lisp
@@ -1063,13 +982,7 @@ Here is how we add more of them!
 #+END_SRC
 
 * Diminishing modes
-Your modeline is sacred, and if you have a lot of modes enabled, as you will if you use this config,
-you might end up with a lot of clutter there, the package =diminish= disables modes on the mode line but keeps
-them running, it just prevents them from showing up and taking up space.
 
-*THIS WILL BE REMOVED SOON AS USE-PACKAGE HAS THE FUNCTIONALITY BUILT IN*
-
-Edit this list as you see fit!
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure t
@@ -1078,38 +991,11 @@ Edit this list as you see fit!
     (diminish 'auto-revert-mode)
     (diminish 'visual-line-mode)
     (diminish 'geiser-autodoc-mode)
+    (diminish 'abbrev-mode)
     )
 #+END_SRC
 
-* Keyboard
-** Use left alt as meta keys and right alt as key modifier
-Not necessary with US layout
-#+BEGIN_SRC emacs-lisp
-;;  (setq ns-alternate-modifier 'meta)
-;;  (setq ns-right-alternate-modifier 'none)
-#+END_SRC
 * Environment
-** Exec PATH
-#+BEGIN_SRC emacs-lisp
-  ;;  (when (string-equal system-type "darwin")
-  ;;    (let (
-  ;;          (mypaths
-  ;;           '(
-  ;;             "/Users/ghetto/.pyenv/shims"
-  ;;             "/usr/local/bin"
-  ;;             "/usr/bin"
-  ;;             "/bin"
-  ;;
-  ;;             "/sbin"
-  ;;             "/usr/local/MacGPG2/bin"
-  ;;             "/usr/local/share/dotnet"
-  ;;             "/opt/X11/bin"
-  ;;             "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-  ;;             ))
-  ;;          )
-  ;;      (setenv "PATH" (concat (mapconcat 'identity mypaths ";") (getenv "PATH")))
-  ;;      (setq exec-path (append mypaths (list "." exec-directory)))))
-
   (use-package exec-path-from-shell
     :ensure t
     :init
@@ -1120,43 +1006,6 @@ Not necessary with US layout
   (setq auth-sources
         '((:source "~/.emacs.d/secrets/.authinfo.gpg")))
 #+END_SRC
-* EVIL
-#+BEGIN_SRC emacs-lisp
-;;  (use-package evil
-;;    :ensure t
-;;    :init
-;;    (evil-mode 0)
-;;    :config
-;;    (setq evil-search-module 'evil-search)
-;;    )
-;;
-;;  (lexical-let ((default-color (cons (face-background 'mode-line)
-;;                                     (face-foreground 'mode-line))))
-;;    (add-hook 'post-command-hook
-;;              (lambda ()
-;;                (let ((color (cond ((minibufferp) default-color)
-;;                                   ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-;;                                   ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-;;                                   ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-;;                                   (t default-color))))
-;;                  (set-face-background 'mode-line (car color))
-;;                  (set-face-foreground 'mode-line (cdr color))))))
-;;
-;;  (use-package evil-paredit
-;;    :ensure t
-;;    :config
-;;    (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
-;;    (add-hook 'eval-expression-minibuffer-setup-hook 'evil-paredit-mode)
-;;    (add-hook 'ielm-mode-hook             'evil-paredit-mode)
-;;    (add-hook 'lisp-mode-hook             'evil-paredit-mode)
-;;    (add-hook 'lisp-interaction-mode-hook 'evil-paredit-mode)
-;;    (add-hook 'scheme-mode-hook           'evil-paredit-mode)
-;;    (add-hook 'geiser-repl-mode-hook      'evil-paredit-mode)
-;;    )
-;;
-;;  (use-package undo-tree
-;;    :diminish undo-tree-mode)
-#+END_SRC
 
 * PDF tools
 #+BEGIN_SRC emacs-lisp
@@ -1166,3 +1015,32 @@ Not necessary with US layout
     (pdf-tools-install))
 #+END_SRC
 
+* Cheatsheet
+#+BEGIN_SRC emacs-lisp
+  (use-package cheatsheet
+    :ensure t)
+
+  (cheatsheet-add-group '"Common"
+                        '(:key "C-c C-f" :description "Show Helm mini (recent files, buffers...)")
+                        '(:key "M-i" :description "Helm swoop back to last point)")
+                        '(:key "C-M-y" :description "Show Helm kill ring)")
+                        '(:key "C-x M-f" :description "sudo edit")
+                        '(:key "C-x ESC ESC" :description "Redo. M-p and M-n to scroll")
+                        '(:key "C-x h" :description "Select all")
+                        )
+
+  (cheatsheet-add-group '"Jump around"
+                        '(:key "C-;" :description "avy goto to char")
+                        '(:key "C-M-;" :description "avy goto to line")
+                        )
+
+  (cheatsheet-add-group '"Dired"
+                        '(:key "." :description "hide dotfiles")
+                        '(:key "shift-(" :description "hide details")
+                        )
+
+  (cheatsheet-add-group '"Source editing"
+                        '(:key "C-x h + C-M-\\" :description "Reformat buffer")
+                        )
+
+#+END_SRC
