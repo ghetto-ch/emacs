@@ -2,17 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("transmission"
+(("Downloads"
+ (filename . "~/Downloads/")
+ (front-context-string . "archlinux-2018.0")
+ (rear-context-string . "3M Aug 11 09:27 ")
+ (position . 230))
+("ssh-transmission"
  (filename . "/ssh:192.168.7.3:/pool1/Data/transmission/")
  (front-context-string . ".\n  drwxr-xr-x 1")
  (rear-context-string . " 8 Jul 15 19:16 ")
  (position . 134))
-("ghettosrv"
+("ssh-ghettosrv"
  (filename . "/ssh:192.168.7.3:/home/ghetto/")
  (front-context-string . ".aptitude\n  -rw-")
  (rear-context-string . "96 Oct 19  2016 ")
  (position . 199))
-("ghettosrv/root"
+("ssh-ghettosrv/root"
  (filename . "/ssh:192.168.7.3|sudo:root@192.168.7.3:/")
  (front-context-string . "bin\n  drwxr-xr-x")
  (rear-context-string . "96 Jun 14 22:26 ")

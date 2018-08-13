@@ -11,6 +11,7 @@
 	paredit-forward-delete
 	paredit-forward-slurp-sexp
 	paredit-semicolon
+	query-replace
 	shell-command-on-region
 	))
 

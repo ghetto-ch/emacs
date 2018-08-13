@@ -674,29 +674,29 @@ Requires libclang to be installed.
 
 **** TODO helm+ggtags
 #+BEGIN_SRC emacs-lisp
-  (setq
-   helm-gtags-ignore-case t
-   helm-gtags-auto-update t
-   helm-gtags-use-input-at-cursor t
-   helm-gtags-pulse-at-cursor t
-   helm-gtags-prefix-key "\C-cg"
-   helm-gtags-suggested-key-mapping t
-   )
-
-  (require 'helm-gtags)
-  ;; Enable helm-gtags-mode
-  (add-hook 'dired-mode-hook 'helm-gtags-mode)
-  (add-hook 'eshell-mode-hook 'helm-gtags-mode)
-  (add-hook 'c-mode-hook 'helm-gtags-mode)
-  (add-hook 'c++-mode-hook 'helm-gtags-mode)
-  (add-hook 'asm-mode-hook 'helm-gtags-mode)
-
-  (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
-  (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
-  (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-  (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-  (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-  (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+;(setq
+; helm-gtags-ignore-case t
+; helm-gtags-auto-update t
+; helm-gtags-use-input-at-cursor t
+; helm-gtags-pulse-at-cursor t
+; helm-gtags-prefix-key "\C-cg"
+; helm-gtags-suggested-key-mapping t
+; )
+;
+;(require 'helm-gtags)
+;;; Enable helm-gtags-mode
+;(add-hook 'dired-mode-hook 'helm-gtags-mode)
+;(add-hook 'eshell-mode-hook 'helm-gtags-mode)
+;(add-hook 'c-mode-hook 'helm-gtags-mode)
+;(add-hook 'c++-mode-hook 'helm-gtags-mode)
+;(add-hook 'asm-mode-hook 'helm-gtags-mode)
+;
+;(define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+;(define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
+;(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+;(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+;(define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+;(define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
 #+END_SRC
 *** python
 **** yasnippet
@@ -861,7 +861,7 @@ CLOSED: [2018-05-18 Fri 20:46]
   (use-package geiser
     :ensure t
     :config
-    (setq geiser-chez-binary "chez")
+    (setq geiser-chez-binary "scheme")
     (setq geiser-guile-binary "guile")
     (setq geiser-guile-jump-on-debug-p t)
     (setq geiser-repl-use-other-window nil)
@@ -996,6 +996,7 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
 #+END_SRC
 
 * Environment
+#+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
     :init
@@ -1027,6 +1028,7 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
                         '(:key "C-x M-f" :description "sudo edit")
                         '(:key "C-x ESC ESC" :description "Redo. M-p and M-n to scroll")
                         '(:key "C-x h" :description "Select all")
+                        '(:key "(c-u) C-x r N" :description "(With formatting) Insert line numbers")
                         )
 
   (cheatsheet-add-group '"Jump around"
@@ -1035,12 +1037,21 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
                         )
 
   (cheatsheet-add-group '"Dired"
-                        '(:key "." :description "hide dotfiles")
-                        '(:key "shift-(" :description "hide details")
+                        '(:key "." :description "Hide dotfiles")
+                        '(:key "shift-(" :description "Hide details")
+                        '(:key "* /" :description "Mark all directories")
+                        '(:key "* *" :description "Mark all files")
+                        '(:key "k" :description "Hide marked files")
+                        '(:key "C-_" :description "Recover marks, hidden lines, and such (undo)")
                         )
 
   (cheatsheet-add-group '"Source editing"
                         '(:key "C-x h + C-M-\\" :description "Reformat buffer")
+                        )
+
+  (cheatsheet-add-group '"Multiple cursors"
+                        '(:key "C-'" :description "Hide lines without cursor")
+                        '(:key "C-j" :description "Insert new line")
                         )
 
 #+END_SRC
