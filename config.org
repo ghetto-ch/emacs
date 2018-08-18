@@ -544,12 +544,19 @@ And now to enable it
       (define-key dired-mode-map "." #'dired-hide-dotfiles-mode))
     (add-hook 'dired-mode-hook #'my-dired-mode-hook))
 
-
 #+END_SRC
 ** Ranger
 #+BEGIN_SRC emacs-lisp
   (use-package ranger
     :ensure t)
+#+END_SRC
+** Immortal scratch
+#+BEGIN_SRC emacs-lisp
+  (use-package immortal-scratch
+    :ensure t
+    :diminish
+    :init
+    (immortal-scratch-mode t))
 #+END_SRC
 * Programming
 Minor, non-completion related settings and plugins for writing code.
