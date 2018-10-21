@@ -121,8 +121,6 @@ Changes =lambda= to an actual symbol and a few others as well, only in the GUI v
 #+END_SRC
 
 * Projectile
-
-
 ** Enable projectile globally
 
 #+BEGIN_SRC emacs-lisp
@@ -229,7 +227,6 @@ This turns on the clock globally.
 #+END_SRC
 
 * Moving around emacs
-
 ** a prerequisite for others packages
 #+BEGIN_SRC emacs-lisp
 ;;  (use-package ivy
@@ -398,7 +395,6 @@ This turns on the clock globally.
 #+END_SRC
 ** DONE helm
 CLOSED: [2018-05-18 Fri 18:42]
-*** helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm
     :ensure t
@@ -448,6 +444,9 @@ CLOSED: [2018-05-18 Fri 18:42]
   (helm-projectile-on)
 
   (use-package helm-ag
+    :ensure t)
+
+  (use-package helm-pass
     :ensure t)
 #+END_SRC
 
@@ -558,6 +557,18 @@ And now to enable it
     :init
     (immortal-scratch-mode t))
 #+END_SRC
+* Environment
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init
+    (exec-path-from-shell-initialize))
+#+END_SRC
+** auth-sources
+#+BEGIN_SRC emacs-lisp
+  (setq auth-sources
+        '((:source "~/.emacs.d/secrets/.authinfo.gpg")))
+#+END_SRC
 * Programming
 Minor, non-completion related settings and plugins for writing code.
 ** yasnippet
@@ -584,6 +595,7 @@ Minor, non-completion related settings and plugins for writing code.
     :config
     (setq company-idle-delay 0.5)
     (setq company-minimum-prefix-length 2)
+    :diminish
     )
 
   (with-eval-after-load 'company
@@ -611,6 +623,7 @@ Minor, non-completion related settings and plugins for writing code.
     (setq highlight-indent-guides-method 'column)
     (setq highlight-indent-guides-responsive 'top)
     (setq highlight-indent-guides-delay 0)
+    :diminish
     )
 
 #+END_SRC
@@ -893,9 +906,7 @@ CLOSED: [2018-05-18 Fri 20:46]
     (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
     (add-hook 'geiser-repl-mode-hook      #'enable-paredit-mode))
 #+END_SRC
-
 * Git integration
-
 ** magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -906,8 +917,7 @@ CLOSED: [2018-05-18 Fri 20:46]
     :bind
     ("M-g" . magit-status))
 #+END_SRC
-
-* Remote editing
+* Remote editing and pastebin
 ** Tramp
 #+BEGIN_SRC emacs-lisp
   (setq tramp-default-method "ssh")
@@ -920,6 +930,23 @@ Pretty self-explanatory, useful as hell if you use exwm.
     :ensure t
     :bind
       ("C-x M-f" . sudo-edit))
+#+END_SRC
+** Webpaste
+#+BEGIN_SRC emacs-lisp
+  (use-package webpaste
+    :ensure t
+    :bind (("C-c w b" . webpaste-paste-buffer)
+           ("C-c w r" . webpaste-paste-region))
+    :config
+    (progn
+      (setq webpaste-provider-priority '("ptpb.pw" "ix.io"))))
+#+END_SRC
+* PDF tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :config
+    (pdf-tools-install))
 #+END_SRC
 * Org
 
@@ -987,7 +1014,6 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
   (use-package ox-twbs
     :ensure t)
 #+END_SRC
-
 * Diminishing modes
 
 #+BEGIN_SRC emacs-lisp
@@ -1001,28 +1027,6 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
     (diminish 'abbrev-mode)
     )
 #+END_SRC
-
-* Environment
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :init
-    (exec-path-from-shell-initialize))
-#+END_SRC
-** auth-sources
-#+BEGIN_SRC emacs-lisp
-  (setq auth-sources
-        '((:source "~/.emacs.d/secrets/.authinfo.gpg")))
-#+END_SRC
-
-* PDF tools
-#+BEGIN_SRC emacs-lisp
-  (use-package pdf-tools
-    :ensure t
-    :config
-    (pdf-tools-install))
-#+END_SRC
-
 * Cheatsheet
 #+BEGIN_SRC emacs-lisp
   (use-package cheatsheet
@@ -1030,8 +1034,8 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
 
   (cheatsheet-add-group '"Common"
                         '(:key "C-c C-f" :description "Show Helm mini (recent files, buffers...)")
-                        '(:key "M-i" :description "Helm swoop back to last point)")
-                        '(:key "C-M-y" :description "Show Helm kill ring)")
+                        '(:key "M-i" :description "Helm swoop back to last point")
+                        '(:key "C-M-y" :description "Show Helm kill ring")
                         '(:key "C-x M-f" :description "sudo edit")
                         '(:key "C-x ESC ESC" :description "Redo. M-p and M-n to scroll")
                         '(:key "C-x h" :description "Select all")
@@ -1046,8 +1050,9 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
   (cheatsheet-add-group '"Dired"
                         '(:key "." :description "Hide dotfiles")
                         '(:key "shift-(" :description "Hide details")
+                        '(:key "* s" :description "Mark all files")
                         '(:key "* /" :description "Mark all directories")
-                        '(:key "* *" :description "Mark all files")
+                        '(:key "* *" :description "Mark all executables")
                         '(:key "k" :description "Hide marked files")
                         '(:key "C-_" :description "Recover marks, hidden lines, and such (undo)")
                         )
