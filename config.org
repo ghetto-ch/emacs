@@ -472,6 +472,10 @@ CLOSED: [2018-05-18 Fri 18:42]
     ("C-<" . mc/mark-previous-like-this)
     ("C-c C-<" . mc/mark-all-like-this))
   (require 'mc-hide-unmatched-lines-mode)
+
+  (use-package pandoc-mode
+    :ensure t
+    )
 #+END_SRC
 * Minor conveniences
 ** Electric
