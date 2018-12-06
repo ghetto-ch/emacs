@@ -15,7 +15,7 @@
                         ))
   (when (string-equal system-type "gnu/linux")
     (set-face-attribute 'default nil
-                        :height 140
+                        :height 120
                         :family "Inconsolata"
                         ))
 #+END_SRC
@@ -648,6 +648,10 @@ Minor, non-completion related settings and plugins for writing code.
     :init (add-hook 'c++-mode-hook 'platformio-conditionally-enable)
     )
 #+END_SRC
+** esp-idf 
+#+BEGIN_SRC emacs-lisp
+  (setenv "IDF_PATH" "/home/ghetto/esp/esp-idf")
+#+END_SRC
 ** specific languages
 
 *** TODO c/c++
@@ -782,8 +786,8 @@ Requires libclang to be installed.
   (use-package pyenv-mode
     :ensure t
     :init
-    (add-to-list 'exec-path "~/.pyenv/shims")
-    (setenv "WORKON_HOME" "~/.pyenv/versions/")
+    (add-to-list 'exec-path "/home/ghetto/.pyenv/shims")
+    (setenv "WORKON_HOME" "/home/ghetto/.pyenv/versions/")
     :config
     (pyenv-mode)
     :bind
