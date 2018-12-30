@@ -21,10 +21,10 @@
 #+END_SRC
 ** A nice theme
 #+BEGIN_SRC emacs-lisp
-  (use-package zenburn-theme
+  (use-package base16-theme
     :ensure t
     :init
-    (load-theme 'zenburn t))
+    (load-theme 'base16-default-dark t))
 
   (set-face-attribute 'region nil :background "navy")
   (custom-set-faces
@@ -64,7 +64,7 @@ This is annoying, remove this line if you like being visually reminded of events
 (setq visible-bell t)
 #+END_SRC
 *** Set UTF-8 encoding
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (setq locale-coding-system 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
@@ -76,7 +76,7 @@ This is annoying, remove this line if you like being visually reminded of events
 Besides, it's only used for programming.
 #+BEGIN_SRC emacs-lisp
   (when window-system (add-hook 'prog-mode-hook 'hl-line-mode))
-  
+
 #+END_SRC
 *** Pretty symbols
 Changes =lambda= to an actual symbol and a few others as well, only in the GUI version though.
@@ -129,7 +129,7 @@ Changes =lambda= to an actual symbol and a few others as well, only in the GUI v
       :config
       (setq projectile-completion-system 'helm)
       (setq projectile-mode-line '(:eval (format " Prj[%s]" (projectile-project-name))))
-    
+
       :init
       (setq projectile-keymap-prefix (kbd "C-c p"))
       (projectile-mode 1)
@@ -331,7 +331,7 @@ This turns on the clock globally.
 
     (defun ghetto/ibuffer-set-filter-groups ()
       (interactive)
-      (setq ibuffer-filter-groups 
+      (setq ibuffer-filter-groups
             (append
              (ibuffer-projectile-generate-filter-groups)
              (list
@@ -420,7 +420,7 @@ CLOSED: [2018-05-18 Fri 18:42]
     (helm-mode 1)
     :diminish helm-mode)
 
-  (require 'helm-config)    
+  (require 'helm-config)
   (helm-autoresize-mode 1)
 
   (use-package helm-swoop
@@ -648,7 +648,7 @@ Minor, non-completion related settings and plugins for writing code.
     :init (add-hook 'c++-mode-hook 'platformio-conditionally-enable)
     )
 #+END_SRC
-** esp-idf 
+** esp-idf
 #+BEGIN_SRC emacs-lisp
   (setenv "IDF_PATH" "/home/ghetto/esp/esp-idf")
 #+END_SRC
@@ -749,7 +749,7 @@ Requires libclang to be installed.
 
   (defun python-mode-company-init ()
     (setq-local company-backends '((company-jedi
-				    company-etags
+				    ;company-etags
 				    ;company-dabbrev-code
 				    ))))
 #+END_SRC
@@ -901,7 +901,7 @@ CLOSED: [2018-05-18 Fri 20:46]
 
 #+END_SRC
 **** Paredit
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (use-package paredit
     :ensure t
     :config
