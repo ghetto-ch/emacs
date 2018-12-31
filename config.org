@@ -101,10 +101,11 @@ Changes =lambda= to an actual symbol and a few others as well, only in the GUI v
 #+END_SRC
 
 ** Functionality
-*** Disable backups and auto-saves
+*** Disable backups, menu and auto-saves
 #+BEGIN_SRC emacs-lisp
-(setq make-backup-files nil)
-(setq auto-save-default nil)
+  (setq make-backup-files nil)
+  (menu-bar-mode -1)
+  (setq auto-save-default nil)
 #+END_SRC
 
 *** Change yes-or-no questions into y-or-n questions
@@ -411,7 +412,7 @@ CLOSED: [2018-05-18 Fri 18:42]
      helm-recentf-fuzzy-match t
      helm-semantic-fuzzy-match t
      helm-imenu-fuzzy-match t
-     helm-split-window-inside-p t
+     helm-split-window-inside-p nil
      )
     ;(define-key helm-find-files-map (kbd "<tab>") 'helm-execute-persistent-action)
     ;(define-key helm-find-files-map (kbd "C-<backspace>") 'helm-find-files-up-one-level)
@@ -1074,4 +1075,14 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
                         '(:key "C-j" :description "Insert new line")
                         )
 
+#+END_SRC
+* Evil mode
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :ensure t
+    :ensure undo-tree
+    :ensure goto-chg
+    :init
+    (require 'evil)
+    (evil-mode 1))
 #+END_SRC
