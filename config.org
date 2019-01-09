@@ -1082,6 +1082,7 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
     :ensure t
     :ensure undo-tree
     :ensure goto-chg
+    :diminish undo-tree-mode
     :init
     (require 'evil)
     (evil-mode 1))
