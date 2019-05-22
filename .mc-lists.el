@@ -4,6 +4,10 @@
 (setq mc/cmds-to-run-for-all
       '(
 	dired-unmark-backward
+	evil-delete
+	evil-exit-visual-state
+	evil-insert
+	evil-normal-state
 	indent-for-tab-command
 	kill-region
 	org-self-insert-command
@@ -19,6 +23,8 @@
       '(
 	dired-toggle-read-only
 	end-of-buffer
+	evil-append
+	evil-delete-backward-char-and-join
 	helm-M-x
 	mouse-set-region
 	))

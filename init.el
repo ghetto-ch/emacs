@@ -37,7 +37,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (base16-theme pandoc-mode webpaste helm-pass immortal-scratch cheatsheet company-quickhelp window-purpose ibuffer-projectile all-the-icons-dired dired-hide-dotfiles dired-collapse ranger pdf-tools helm-ag helm-projectile exec-path-from-shell diminish ox-twbs org-bullets htmlize sudo-edit magit paredit geiser company-shell slime-company slime pyenv-mode py-autopep8 company-irony company-c-headers flycheck-clang-analyzer platformio-mode highlight-indent-guides company flycheck yasnippet-snippets yasnippet expand-region rainbow-delimiters rainbow-mode multiple-cursors avy helm-swoop helm which-key symon spaceline projectile async zenburn-theme use-package)))
+    (lsp-julia evil-surround quelpa company-lsp lsp-ui lsp-mode julia-mode nim-mode base16-theme pandoc-mode webpaste helm-pass immortal-scratch cheatsheet company-quickhelp window-purpose ibuffer-projectile all-the-icons-dired dired-hide-dotfiles dired-collapse ranger pdf-tools helm-ag helm-projectile exec-path-from-shell diminish ox-twbs org-bullets htmlize sudo-edit magit paredit geiser company-shell slime-company slime pyenv-mode py-autopep8 company-irony company-c-headers flycheck-clang-analyzer platformio-mode highlight-indent-guides company flycheck yasnippet-snippets yasnippet expand-region rainbow-delimiters rainbow-mode multiple-cursors avy helm-swoop helm which-key symon spaceline projectile async zenburn-theme use-package)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map

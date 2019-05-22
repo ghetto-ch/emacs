@@ -15,8 +15,8 @@
                         ))
   (when (string-equal system-type "gnu/linux")
     (set-face-attribute 'default nil
-                        :height 120
-                        :family "Inconsolata"
+                        ;:height 115
+                        :font "DejaVu Sans Mono 12"
                         ))
 #+END_SRC
 ** A nice theme
@@ -228,6 +228,14 @@ This turns on the clock globally.
 #+END_SRC
 
 * Moving around emacs
+** reload config file
+#+BEGIN_SRC emacs-lisp
+  (defun config-reload ()
+    "Reloads ~/.emacs.d/config.org at runtime"
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+  (global-set-key (kbd "C-c r") 'config-reload)
+#+END_SRC
 ** a prerequisite for others packages
 #+BEGIN_SRC emacs-lisp
 ;;  (use-package ivy
@@ -592,6 +600,22 @@ Minor, non-completion related settings and plugins for writing code.
     :diminish 'flycheck-mode)
 #+END_SRC
 
+** language server client
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :commands lsp
+    )
+
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+
+  (use-package company-lsp
+    :ensure t
+    :commands company-lsp)
+
+#+END_SRC
 ** company mode
 
 #+BEGIN_SRC emacs-lisp
@@ -915,6 +939,33 @@ CLOSED: [2018-05-18 Fri 20:46]
     (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
     (add-hook 'geiser-repl-mode-hook      #'enable-paredit-mode))
 #+END_SRC
+*** Nim
+#+BEGIN_SRC emacs-lisp
+  (use-package nim-mode
+    :ensure t
+    :init
+    (add-hook 'nim-mode-hook 'nimsuggest-mode)
+    (add-hook 'nimsuggest-mode-hook 'company-mode)
+    (add-hook 'nimsuggest-mode-hook 'flycheck-mode))
+#+END_SRC
+*** Julia
+#+BEGIN_SRC emacs-lisp
+  (use-package julia-mode
+    :ensure t
+    :ensure julia-repl
+    :init
+    (require 'julia-mode)
+    (require 'julia-repl)
+    :config
+    (add-hook 'julia-mode-hook 'julia-repl-mode)
+    (add-hook 'julia-mode-hook 'company-mode)
+    (add-hook 'julia-mode-hook #'lsp)
+    (add-hook 'julia-mode-hook #'lsp-mode))
+
+  (quelpa '(lsp-julia :fetcher github :repo "non-Jedi/lsp-julia"))
+  ;;(load "~/.emacs.d/lsp-julia.el")
+
+#+END_SRC
 * Git integration
 ** magit
 #+BEGIN_SRC emacs-lisp
@@ -1086,4 +1137,9 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
     :init
     (require 'evil)
     (evil-mode 1))
+
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
 #+END_SRC
